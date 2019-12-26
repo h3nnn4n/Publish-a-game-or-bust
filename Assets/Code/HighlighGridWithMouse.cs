@@ -3,24 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class HighlighGridWithMouse : MonoBehaviour
 {
     Grid grid;
     Camera mainCamera;
     Tilemap tileMap;
-    public Tile highlightedTile;
+
+    public GameObject highlightEffect;
+
+    GameObject effectObject;
+
+    GameController gameControler;
+    TileMapManager tileMapManager;
 
     Tile lastTile;
 
     Vector3Int lastCoordinate;
     Vector3Int currentCoordinate;
+    Vector3 currentWorldCoordinate;
     bool coordinateChanged;
 
     void Start()
     {
-        grid = GetGrid();
+        gameControler = GameController.GetInstance();
+        tileMapManager = TileMapManager.GetInstance();
+        grid = gameControler.GetGrid();
         mainCamera = Camera.main;
-        tileMap = GetTileMap();
+        tileMap = gameControler.GetTileMap();
+
+        effectObject = Instantiate(
+            highlightEffect
+        );
     }
 
     void Update()
@@ -31,9 +45,8 @@ public class HighlighGridWithMouse : MonoBehaviour
 
     void UpdateCoordinates()
     {
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int coordinate = grid.WorldToCell(mouseWorldPos);
-        //transform.localPosition = tilemap.GetCellCenterLocal(coordinate);
+        currentWorldCoordinate = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int coordinate = grid.WorldToCell(currentWorldCoordinate);
 
         if (coordinate != currentCoordinate)
         {
@@ -45,34 +58,20 @@ public class HighlighGridWithMouse : MonoBehaviour
         {
             coordinateChanged = false;
         }
-
     }
 
     void HighlightCurrentTile()
     {
         if (coordinateChanged) {
-            if (lastTile != null)
+            if(tileMapManager.CanBuild(currentCoordinate))
             {
-                tileMap.SetTile(lastCoordinate, lastTile);
+                effectObject.SetActive(true);
+            } else
+            {
+                effectObject.SetActive(false);
             }
 
-            lastTile = tileMap.GetTile<Tile>(currentCoordinate);
-
-            tileMap.SetTile(currentCoordinate, highlightedTile);
+            effectObject.transform.position = tileMap.GetCellCenterWorld(currentCoordinate);
         }
-    }
-
-    Tilemap GetTileMap()
-    {
-        GameObject tileMapObject = GameObject.FindGameObjectWithTag("Tilemap");
-
-        return tileMapObject.GetComponent<Tilemap>();
-    }
-
-    Grid GetGrid()
-    {
-        GameObject gridObject = GameObject.FindGameObjectWithTag("Grid");
-
-        return gridObject.GetComponent<Grid>();
     }
 }

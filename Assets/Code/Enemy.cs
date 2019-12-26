@@ -17,14 +17,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         FindAndCacheSink();
-        gameController = FindGameController();
-    }
-
-    GameController FindGameController()
-    {
-        GameObject gridObject = GameObject.FindGameObjectWithTag("Grid");
-
-        return gridObject.GetComponent<GameController>();
+        gameController = GameController.GetInstance();
     }
 
     void Update()

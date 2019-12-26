@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8107131404495665803}
   - component: {fileID: 8107131404495665812}
-  - component: {fileID: 8107131404495665801}
   - component: {fileID: 8107131404495665802}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: BaseGrid
   m_TagString: Grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,22 +45,6 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &8107131404495665801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8107131404495665813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4c8ea7469ad1468691e8e8accd67a2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourcePrefab: {fileID: 6737885986830495675, guid: 3e478b0013d3741b4a1c6e9cfa023845,
-    type: 3}
-  sinkPrefab: {fileID: 3401263609942634548, guid: 412377b1e43da46f9991d7dc37666f44,
-    type: 3}
 --- !u!114 &8107131404495665802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +57,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86faefac54c4f4110a71edbd420f4dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedTile: {fileID: 11400000, guid: 1a9788426075241408ce567ab709d474, type: 2}
+  highlightEffect: {fileID: 2823948694012091113, guid: 7399f185f15e743dda20a90c9b6df919,
+    type: 3}
 --- !u!1 &8107131404771945493
 GameObject:
   m_ObjectHideFlags: 0

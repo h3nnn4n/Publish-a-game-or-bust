@@ -105,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7199663210915735792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7199663208931667931}
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponCooldown: 0.75
   weaponDamage: 1
-  weaponRange: 2
+  weaponRange: 3
+  weaponCost: 30
   bulletObjectPrefab: {fileID: 3505859357652622827, guid: 2831df06646d14862a447fcf0520783c,
     type: 3}
