@@ -10,7 +10,7 @@ public class UiController : MonoBehaviour
 
     void Start()
     {
-        textCreditsAmount = GameObject.Find("Text Credits Amount").GetComponent<Text>();
+        textCreditsAmount = GameObject.Find("TextCreditsAmount").GetComponent<Text>();
     }
 
     void Update()
