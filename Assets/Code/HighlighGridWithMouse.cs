@@ -29,20 +29,6 @@ public class HighlighGridWithMouse : MonoBehaviour
         HighlightCurrentTile();
     }
 
-    void HighlightCurrentTile()
-    {
-        if (coordinateChanged) {
-            if (lastTile != null)
-            {
-                tileMap.SetTile(lastCoordinate, lastTile);
-            }
-
-            lastTile = tileMap.GetTile<Tile>(currentCoordinate);
-
-            tileMap.SetTile(currentCoordinate, highlightedTile);
-        }
-    }
-
     void UpdateCoordinates()
     {
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -60,6 +46,20 @@ public class HighlighGridWithMouse : MonoBehaviour
             coordinateChanged = false;
         }
 
+    }
+
+    void HighlightCurrentTile()
+    {
+        if (coordinateChanged) {
+            if (lastTile != null)
+            {
+                tileMap.SetTile(lastCoordinate, lastTile);
+            }
+
+            lastTile = tileMap.GetTile<Tile>(currentCoordinate);
+
+            tileMap.SetTile(currentCoordinate, highlightedTile);
+        }
     }
 
     Tilemap GetTileMap()
