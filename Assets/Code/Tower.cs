@@ -32,6 +32,13 @@ public class Tower : MonoBehaviour
         {
             return;
         }
+
+        Vector3 targetPos = target.transform.position;
+        Vector3 objectPos = transform.position; // Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 diff = targetPos - objectPos;
+
+        float angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     void TickWeaponCooldown()
