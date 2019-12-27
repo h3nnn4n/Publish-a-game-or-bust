@@ -62,6 +62,12 @@ public class BuildController : MonoBehaviour
             canBuild = false;
         }
 
+        if (canBuild && WillTowerBlockThePath())
+        {
+            Debug.Log(string.Format("Building at {0} would block all possible paths", currentCoordinate));
+            canBuild = false;
+        }
+
         return canBuild;
     }
 
@@ -106,5 +112,25 @@ public class BuildController : MonoBehaviour
         {
             coordinateChanged = false;
         }
+    }
+
+    bool WillTowerBlockThePath()
+    {
+        Node node = tileMapManager.GetNode(currentCoordinate);
+        node.canBuild = false;
+
+        Debug.Assert(pathfinder.HasPath(), "Expected a valid path to exist when WillTowerBlockThePath() was called");
+
+        pathfinder.RecalculatePath();
+
+        bool willPathBeBlocked = !pathfinder.HasPath();
+  
+        node.canBuild = true;
+
+        pathfinder.RecalculatePath();
+
+        Debug.Assert(pathfinder.HasPath(), "Expected a valid path to exist after WillTowerBlockThePath() was called");
+
+        return willPathBeBlocked;
     }
 }
