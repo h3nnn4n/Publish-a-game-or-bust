@@ -29,6 +29,11 @@ public class Pathfinder : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
     }
 
+    public List<Vector2Int> GetPath()
+    {
+        return new List<Vector2Int>(path);
+    }
+
     public bool HasPath()
     {
         return hasPath;
@@ -101,6 +106,8 @@ public class Pathfinder : MonoBehaviour
 
         Debug.Log("Found a valid path!");
         hasPath = true;
+
+        path.Reverse();
     }
 
     void DrawPath()

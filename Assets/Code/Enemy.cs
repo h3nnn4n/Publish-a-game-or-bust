@@ -7,17 +7,26 @@ public class Enemy : MonoBehaviour
 {
     GameObject sink;
     GameController gameController;
+    Pathfinder globalPathfinder;
+
+    List<Vector2Int> path;
+    Vector2Int currentNode;
 
     public float health = 10;
     public float speed = 1f;
     public float credits = 10f;
 
     readonly float speedScale = 0.1f;
+    readonly float distanceThreshold = 0.02f;
 
     void Start()
     {
         FindAndCacheSink();
         gameController = GameController.GetInstance();
+        globalPathfinder = gameController.GetPathfinder();
+
+        path = globalPathfinder.GetPath();
+        GetNextNodeFromPathfinder();
     }
 
     void Update()
@@ -47,12 +56,25 @@ public class Enemy : MonoBehaviour
 
     void MoveTowardsSink()
     {
-        Vector3 sinkPosition = sink.transform.position;
-        Vector3 selfPosition = transform.position;
-        Vector3 moveDirection = sinkPosition - selfPosition;
+        Vector2 nodePosition = currentNode + new Vector2(-1.5f, 0f);
+        Vector2 selfPosition = transform.position;
+        Vector2 moveDirection = nodePosition - selfPosition;
+
+        if(moveDirection.magnitude < distanceThreshold)
+        {
+            GetNextNodeFromPathfinder();
+            return;
+        }
+
         Vector3 step = moveDirection.normalized * speed * speedScale;
 
         transform.position += step;
+    }
+
+    void GetNextNodeFromPathfinder()
+    {
+        currentNode = path[0];
+        path.RemoveAt(0);
     }
 
     void FindAndCacheSink()
