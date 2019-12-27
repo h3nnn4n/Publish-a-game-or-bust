@@ -85,7 +85,11 @@ public class TileMapManager : MonoBehaviour
 
     public Node GetNode(Vector2Int pos)
     {
-        return grid[(pos.x, pos.y)].GetComponent<Node>();
+        if (grid.ContainsKey((pos.x, pos.y))) {
+            return grid[(pos.x, pos.y)].GetComponent<Node>();
+        }
+
+        return null;
     }
 
     public Node FindByType(string type)

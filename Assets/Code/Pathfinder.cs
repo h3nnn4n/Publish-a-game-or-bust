@@ -29,22 +29,22 @@ public class Pathfinder : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
     }
 
+    public bool HasPath()
+    {
+        return hasPath;
+    }
+
     public void RecalculatePath()
     {
         Debug.Log("Recalculating shortest path");
 
-        hasPath = false;
+        SetupEnvironment();
 
-        path.Clear();
-        pathGraph.Clear();
-        queue.Clear();
-        visited.Clear();
         EnqueueNeighbors(startPoint);
 
         while (queue.Count > 0)
         {
             Vector2Int position = queue.Dequeue();
-            Debug.Log(position);
 
             if (position == endPoint)
             {
@@ -58,11 +58,6 @@ public class Pathfinder : MonoBehaviour
             {
                 EnqueueNeighbors(position);
             }
-        }
-
-        if (queue.Count == 0)
-        {
-            Debug.Log("Found not path!");
         }
 
         DrawPath();
@@ -104,6 +99,7 @@ public class Pathfinder : MonoBehaviour
             path.Add(node);
         }
 
+        Debug.Log("Found a valid path!");
         hasPath = true;
     }
 
@@ -125,5 +121,30 @@ public class Pathfinder : MonoBehaviour
 
         lineRenderer.positionCount = path.Count;
         lineRenderer.SetPositions(linePath.ToArray());
+    }
+
+    void SetupEnvironment()
+    {
+        hasPath = false;
+
+        path.Clear();
+        pathGraph.Clear();
+        queue.Clear();
+        visited.Clear();
+
+        if (gameController == null)
+        {
+            gameController = GameController.GetInstance();
+        }
+
+        if (tileMapManager ==  null)
+        {
+            tileMapManager = TileMapManager.GetInstance();
+        }
+
+        if (lineRenderer == null)
+        {
+            lineRenderer = GetComponent<LineRenderer>();
+        }
     }
 }
