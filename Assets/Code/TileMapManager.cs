@@ -80,17 +80,27 @@ public class TileMapManager : MonoBehaviour
 
     public Node GetNode(Vector3Int pos)
     {
-        try
+        return grid[(pos.x, pos.y)].GetComponent<Node>();
+    }
+
+    public Node GetNode(Vector2Int pos)
+    {
+        return grid[(pos.x, pos.y)].GetComponent<Node>();
+    }
+
+    public Node FindByType(string type)
+    {
+        foreach (GameObject nodeGameObject in grid.Values)
         {
-            var potato = grid[(pos.x, pos.y)];
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogFormat("Failed at pos: {0}", pos);
-            Debug.Log(grid.Values);
+            Node node = nodeGameObject.GetComponent<Node>();
+
+            if (node.type == type)
+            {
+                return node;
+            }
         }
 
-        return grid[(pos.x, pos.y)].GetComponent<Node>();
+        return null;
     }
 
     public static TileMapManager GetInstance()

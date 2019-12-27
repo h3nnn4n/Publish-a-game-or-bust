@@ -12,6 +12,7 @@ public class BuildController : MonoBehaviour
 
     GameController gameControler;
     TileMapManager tileMapManager;
+    Pathfinder pathfinder;
     Grid grid;
     Camera mainCamera;
     Tilemap tileMap;
@@ -23,6 +24,8 @@ public class BuildController : MonoBehaviour
     {
         gameControler = GameController.GetInstance();
         tileMapManager = TileMapManager.GetInstance();
+        pathfinder = gameControler.GetPathfinder();
+
         grid = gameControler.GetGrid();
         mainCamera = Camera.main;
         tileMap = gameControler.GetTileMap();
@@ -77,6 +80,8 @@ public class BuildController : MonoBehaviour
         gameControler.SpendCredits(SelectedWeaponCost());
 
         node.canBuild = false;
+
+        pathfinder.RecalculatePath();
 
         Debug.Log("Tower Built");
     }

@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     UiController uiController;
     TileMapManager tileMapManager;
+    Pathfinder pathfinder;
 
     float credits;
 
@@ -42,6 +43,8 @@ public class GameController : MonoBehaviour
         grid = GetGrid();
 
         SpawnGameObjects();
+        GetPathfinder();
+        pathfinder.RecalculatePath();
 
         credits = 100;
     }
@@ -73,6 +76,8 @@ public class GameController : MonoBehaviour
 
         string spriteName = tile.sprite.name;
         var node = tileMapManager.GetNode(cellPosition);
+        node.type = spriteName;
+        node.position = (Vector2Int)cellPosition;
 
         switch (spriteName)
         {
@@ -88,6 +93,7 @@ public class GameController : MonoBehaviour
                 );
 
                 node.canBuild = false;
+                pathfinder.startPoint = (Vector2Int)cellPosition;
 
                 break;
             case "sink":
@@ -102,6 +108,7 @@ public class GameController : MonoBehaviour
                 );
 
                 node.canBuild = false;
+                pathfinder.endPoint = (Vector2Int)cellPosition;
 
                 break;
             case "empty":
@@ -158,5 +165,15 @@ public class GameController : MonoBehaviour
         }
 
         return uiController;
+    }
+
+    public Pathfinder GetPathfinder()
+    {
+        if (pathfinder == null )
+        {
+            pathfinder = GameObject.Find("PathfinderObject").GetComponent<Pathfinder>();
+        }
+
+        return pathfinder;
     }
 }
