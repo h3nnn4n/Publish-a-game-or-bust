@@ -122,6 +122,21 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void BroadcastRecalculatePathToAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var enemyGameObject in enemies)
+        {
+            Enemy enemy = enemyGameObject.GetComponent<Enemy>();
+            enemy.RecalculatePath();
+        }
+
+        Node sourceNode = tileMapManager.FindByType("source");
+        pathfinder.startPoint = sourceNode.position;
+        pathfinder.RecalculatePath();
+    }
+
     public Node GetNodeForTile(Tile tile)
     {
         return tile.gameObject.GetComponent<Node>();

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     GameObject sink;
     GameController gameController;
     Pathfinder globalPathfinder;
+    TileMapManager tileMapManager;
 
     List<Vector2Int> path;
     Vector2Int currentNode;
@@ -24,6 +25,7 @@ public class Enemy : MonoBehaviour
         FindAndCacheSink();
         gameController = GameController.GetInstance();
         globalPathfinder = gameController.GetPathfinder();
+        tileMapManager = TileMapManager.GetInstance();
 
         path = globalPathfinder.GetPath();
         GetNextNodeFromPathfinder();
@@ -88,5 +90,17 @@ public class Enemy : MonoBehaviour
     public void DealDamage(float damage)
     {
         health -= damage;
+    }
+
+    public void RecalculatePath()
+    {
+        Vector3Int gridPosition = tileMapManager.GetGridCelPosition(transform.position);
+
+        globalPathfinder.startPoint = (Vector2Int)gridPosition;
+        globalPathfinder.RecalculatePath();
+
+        path = globalPathfinder.GetPath();
+
+        GetNextNodeFromPathfinder();
     }
 }

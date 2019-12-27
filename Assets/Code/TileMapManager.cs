@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileMapManager : MonoBehaviour
 {
     private static TileMapManager instance;
 
+    GameController gameController;
+    Grid tilemapGrid;
+
     public GameObject nodePrefab;
 
     Dictionary<(int, int), GameObject> grid;
-    GameController gameController;
     BoundsInt bounds;
     Vector3Int size;
 
@@ -28,6 +31,9 @@ public class TileMapManager : MonoBehaviour
     void Start()
     {
         gameController = GameController.GetInstance();
+
+        tilemapGrid = gameController.GetGrid();
+
         var tilemap = gameController.GetTileMap();
         bounds = tilemap.cellBounds;
         size = tilemap.size;
@@ -64,6 +70,13 @@ public class TileMapManager : MonoBehaviour
     GameObject GetNodeContainer()
     {
         return transform.Find("Nodes").gameObject;
+    }
+
+    public Vector3Int GetGridCelPosition(Vector3 position)
+    {
+        Vector3Int coordinate = tilemapGrid.WorldToCell(position);
+
+        return coordinate;
     }
 
     public bool CanBuild(Vector3Int pos)

@@ -81,7 +81,7 @@ public class BuildController : MonoBehaviour
 
         node.canBuild = false;
 
-        pathfinder.RecalculatePath();
+        gameControler.BroadcastRecalculatePathToAllEnemies();
 
         Debug.Log("Tower Built");
     }
