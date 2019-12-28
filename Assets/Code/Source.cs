@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class Source : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject enemyCirclePrefab;
+    public GameObject enemySquarePrefab;
 
     public void Spawn()
     {
         Instantiate(
-            enemyPrefab,
+            enemyCirclePrefab,
             transform.position,
             Quaternion.identity
         );
@@ -22,7 +23,14 @@ public class Source : MonoBehaviour
         {
             case EnemyType.Sphere:
                 Instantiate(
-                    enemyPrefab,
+                    enemyCirclePrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+                break;
+            case EnemyType.Square:
+                Instantiate(
+                    enemySquarePrefab,
                     transform.position,
                     Quaternion.identity
                 );

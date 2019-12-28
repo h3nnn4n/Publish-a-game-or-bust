@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 55338885096454583}
   - component: {fileID: 3548703796036673591}
   - component: {fileID: 6926347377482552721}
+  - component: {fileID: 4486306723481989001}
   m_Layer: 0
   m_Name: Waves
   m_TagString: Untagged
@@ -198,3 +199,22 @@ MonoBehaviour:
   - 2
   - 2
   enemies: 0000000000000000000000000000000000000000
+--- !u!114 &4486306723481989001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978487366308487070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e2275373d0b452faa15cb3e77d71a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveIndex: 2
+  timeBeforeWave: 5
+  timeIntervals:
+  - 2
+  - 4
+  - 0
+  enemies: 000000000000000001000000
