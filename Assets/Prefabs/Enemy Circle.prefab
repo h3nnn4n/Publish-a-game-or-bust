@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8789261020063505164}
   - component: {fileID: 8789261020063505165}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy Circle
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
-  speed: 0.1
+  speed: 0.2
+  credits: 10
+  distanceThreshold: 0.2
 --- !u!1 &8789261021575899734
 GameObject:
   m_ObjectHideFlags: 0

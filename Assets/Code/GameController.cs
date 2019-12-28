@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
 
     float credits;
 
+    public int startingLives = 10;
+    int currentLives;
+
     Tilemap tileMap;
     Grid grid;
 
@@ -47,11 +50,15 @@ public class GameController : MonoBehaviour
         pathfinder.RecalculatePath();
 
         credits = 100;
+
+        currentLives = startingLives;
     }
 
     void Update()
     {
+        CheckGameOver();
         GetUiController().SetCredits(credits);
+        GetUiController().SetLives(currentLives);
     }
 
     void SpawnGameObjects()
@@ -120,6 +127,19 @@ public class GameController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void CheckGameOver()
+    {
+        if (currentLives < 0)
+        {
+            Debug.LogError("You died! This is an error lol");
+        }
+    }
+
+    public void LoseLife()
+    {
+        currentLives--;
     }
 
     public void BroadcastRecalculatePathToAllEnemies()

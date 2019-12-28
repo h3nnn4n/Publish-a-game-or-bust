@@ -16,9 +16,10 @@ public class Enemy : MonoBehaviour
     public float health = 10;
     public float speed = 1f;
     public float credits = 10f;
+    public float nodeDistanceThreshold = 0.2f;
+    public float sinkDistanceThreshold = 0.5f;
 
     readonly float speedScale = 0.1f;
-    readonly float distanceThreshold = 0.02f;
 
     void Start()
     {
@@ -44,8 +45,9 @@ public class Enemy : MonoBehaviour
         Vector3 selfPosition = transform.position;
         Vector3 distance = sinkPosition - selfPosition;
 
-        if (distance.magnitude < 1.0)
+        if (distance.magnitude < sinkDistanceThreshold)
         {
+            gameController.LoseLife();
             Destroy(gameObject);
         }
 
@@ -62,7 +64,7 @@ public class Enemy : MonoBehaviour
         Vector2 selfPosition = transform.position;
         Vector2 moveDirection = nodePosition - selfPosition;
 
-        if(moveDirection.magnitude < distanceThreshold)
+        if(moveDirection.magnitude < nodeDistanceThreshold)
         {
             GetNextNodeFromPathfinder();
             return;
