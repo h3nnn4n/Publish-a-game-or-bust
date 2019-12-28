@@ -137,11 +137,13 @@ public class BuildController : MonoBehaviour
 
     public void SelectGunTower()
     {
+        Debug.Log("Selected Gun Tower");
         selectedTower = basicTowerPrefab;
     }
 
     public void SelectCannonTower()
     {
+        Debug.Log("Selected Cannon Tower");
         selectedTower = cannonTowerPrefab;
     }
 }
