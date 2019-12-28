@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
 public class BuildController : MonoBehaviour
 {
+    private static BuildController instance;
+
     public GameObject basicTowerPrefab;
     public GameObject cannonTowerPrefab;
 
@@ -21,21 +22,46 @@ public class BuildController : MonoBehaviour
     Tile currentTile;
     bool coordinateChanged;
 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+            Debug.Log("Tried to build more than one BuildController");
+        }
+    }
+
     void Start()
     {
         gameControler = GameController.GetInstance();
-        tileMapManager = TileMapManager.GetInstance();
         pathfinder = gameControler.GetPathfinder();
+        mainCamera = Camera.main;
+    }
+
+    public void Load()
+    {
+        gameControler = GameController.GetInstance();
+
+        tileMapManager = TileMapManager.GetInstance();
 
         grid = gameControler.GetGrid();
-        mainCamera = Camera.main;
         tileMap = gameControler.GetTileMap();
 
-        selectedTower = basicTowerPrefab;
+        selectedTower = null;
     }
 
     void Update()
     {
+        if (gameControler.GetGameState() != GameState.IN_GAME)
+        {
+            return;
+        }
+
+        UpdateActiveGrid();
         UpdateFocusedTitle();
 
         if (Input.GetMouseButtonDown(0))
@@ -50,6 +76,12 @@ public class BuildController : MonoBehaviour
     bool CanBuildTower()
     {
         bool canBuild = true;
+
+        if (!HasTowerSelected())
+        {
+            Debug.Log("Not tower selected");
+            return false;
+        }
 
         if (gameControler.GetCredits() < SelectedWeaponCost())
         {
@@ -74,6 +106,11 @@ public class BuildController : MonoBehaviour
 
     void BuildTower()
     {
+        if (HasTowerSelected())
+        {
+            Debug.Log("No tower selected");
+        }
+
         Node node = tileMapManager.GetNode(currentCoordinate);
         Vector3 cellWorldPosition = tileMap.GetCellCenterWorld(currentCoordinate);
 
@@ -93,6 +130,11 @@ public class BuildController : MonoBehaviour
         Debug.Log("Tower Built");
     }
 
+    bool HasTowerSelected()
+    {
+        return selectedTower != null;
+    }
+
     float SelectedWeaponCost()
     {
         return selectedTower.GetComponent<Tower>().towerCost;
@@ -102,7 +144,6 @@ public class BuildController : MonoBehaviour
     {
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int coordinate = grid.WorldToCell(mouseWorldPos);
-        //transform.localPosition = tilemap.GetCellCenterLocal(coordinate);
 
         if (coordinate != currentCoordinate)
         {
@@ -135,15 +176,26 @@ public class BuildController : MonoBehaviour
         return willPathBeBlocked;
     }
 
+    void UpdateActiveGrid()
+    {
+        grid = gameControler.GetGrid();
+        tileMap = gameControler.GetTileMap();
+    }
+
     public void SelectGunTower()
     {
         Debug.Log("Selected Gun Tower");
-        selectedTower = basicTowerPrefab;
+        GetInstance().selectedTower = basicTowerPrefab;
     }
 
     public void SelectCannonTower()
     {
         Debug.Log("Selected Cannon Tower");
-        selectedTower = cannonTowerPrefab;
+        GetInstance().selectedTower = cannonTowerPrefab;
+    }
+
+    public static BuildController GetInstance()
+    {
+        return instance;
     }
 }

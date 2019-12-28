@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Pathfinder : MonoBehaviour
 {
     GameController gameController;
@@ -153,5 +152,11 @@ public class Pathfinder : MonoBehaviour
         {
             lineRenderer = GetComponent<LineRenderer>();
         }
+    }
+
+    public void Reset()
+    {
+        SetupEnvironment();
+        lineRenderer.positionCount = 0;
     }
 }

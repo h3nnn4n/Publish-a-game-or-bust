@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
 public class GameController : MonoBehaviour
 {
     public GameObject sourcePrefab;
@@ -13,8 +12,13 @@ public class GameController : MonoBehaviour
     UiController uiController;
     TileMapManager tileMapManager;
     Pathfinder pathfinder;
+    BuildController buildController;
+
+    readonly LevelController levelController = new LevelController();
 
     float credits;
+
+    GameState gameState = GameState.MAIN_MENU;
 
     public int startingLives = 10;
     int currentLives;
@@ -29,7 +33,8 @@ public class GameController : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-        } else
+        }
+        else
         {
             Destroy(this);
             Debug.LogError("Warning, GameController tryed to spawn more than once");
@@ -38,27 +43,95 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Debug.Assert(instance == this, "Singleton constraint was violated! WTF");
+
         Debug.Log("GameController started");
 
         tileMapManager = TileMapManager.GetInstance();
+        buildController = GetComponent<BuildController>();
 
-        tileMap = GetTileMap();
-        grid = GetGrid();
+        GetUiController();
 
-        SpawnGameObjects();
-        GetPathfinder();
-        pathfinder.RecalculatePath();
-
-        credits = 100;
-
-        currentLives = startingLives;
+        SetGameStateToMainMenu();
     }
 
     void Update()
     {
+        Debug.Assert(instance == this, "Singleton constraint was violated! WTF");
+
+        switch (gameState)
+        {
+            case GameState.MAIN_MENU:
+                MainMenuLoop();
+                break;
+            case GameState.LEVEL_SELECT_MENU:
+                LevelSelectMenuLoop();
+                break;
+            case GameState.IN_GAME:
+                InGameLoop();
+                break;
+            default:
+                Debug.LogErrorFormat("Warning, found a untreated state: {0}", gameState);
+                break;
+        }
+
+        uiController.SetGameState(gameState.ToString());
+    }
+
+    void MainMenuLoop()
+    {
+        uiController.SetDebugHeartBeat("mainloop");
+    }
+
+    void LevelSelectMenuLoop()
+    {
+        credits += Random.Range(-1f, 1f);
+
+        uiController.SetDebugHeartBeat(
+            string.Format("select menu {0}", credits.ToString()));
+    }
+
+    void InGameLoop()
+    {
+        uiController.SetDebugHeartBeat("ingame");
+
         CheckGameOver();
+        CheckForLevelCompleted();
+
         GetUiController().SetCredits(credits);
         GetUiController().SetLives(currentLives);
+    }
+
+    void LoadLevel()
+    {
+        Debug.LogFormat("LoadLevel triggered with gameState: {0}", gameState);
+
+        Debug.Assert(instance == this, "Singleton constraint was violated! WTF");
+        //Debug.AssertFormat(gameState == GameState.IN_GAME,
+        //    "LoadLevel should only be called when GameState is IN_GAME. It was {0}",
+        //    gameState);
+        SetGameStateToInGame();
+        // FIXME This really smells. There is somethign wrong here but I dont know what
+        // There is no reason to have to call this here.
+
+        tileMap = GetTileMap();
+        grid = GetGrid();
+
+        tileMapManager.LoadLevel();
+
+        SpawnGameObjects();
+
+        GetPathfinder();
+        pathfinder.RecalculatePath();
+
+        credits = 100;
+        currentLives = startingLives;
+
+        buildController.enabled = true;
+        buildController.Load();
+
+        WaveController waveController = grid.GetComponent<WaveController>();
+        waveController.enabled = true;
     }
 
     void SpawnGameObjects()
@@ -73,6 +146,10 @@ public class GameController : MonoBehaviour
 
     void SpawnGameObject(Vector3Int cellPosition)
     {
+        GetPathfinder();
+
+        Debug.Assert(pathfinder != null, "pathFinder is null!");
+
         Vector3 cellWorldPosition = tileMap.GetCellCenterWorld(cellPosition);
         Tile tile = tileMap.GetTile<Tile>(cellPosition);
 
@@ -91,7 +168,6 @@ public class GameController : MonoBehaviour
             case "source":
                 Debug.Log(string.Format("Found source at: {0}", cellPosition));
 
-                //node.gameObject =
                 Instantiate(
                     sourcePrefab,
                     cellWorldPosition,
@@ -106,7 +182,6 @@ public class GameController : MonoBehaviour
             case "sink":
                 Debug.Log(string.Format("Found sink at: {0}", cellPosition));
 
-                //node.gameObject =
                 Instantiate(
                     sinkPrefab,
                     cellWorldPosition,
@@ -131,9 +206,109 @@ public class GameController : MonoBehaviour
 
     void CheckGameOver()
     {
-        if (currentLives < 0)
+        if (currentLives <= 0)
         {
-            Debug.LogError("You died! This is an error lol");
+            DoGameOver();
+        }
+    }
+
+    void DoGameOver()
+    {
+        Debug.Log("GameOver triggered");
+
+        UnloadLevel();
+
+        SetGameStateToLevelSelectMenu();
+    }
+
+    void SetGameState(GameState newGameState)
+    {
+        gameState = newGameState;
+    }
+
+    public int EnemyAliveCount()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        return enemies.Length;
+    }
+
+    public void UnloadLevel()
+    {
+        levelController.UnloadCurrentLevelScene();
+        pathfinder.Reset();
+        buildController.enabled = false;
+    }
+
+    public void SetLevelAndTriggerLoad(int level)
+    {
+        SetGameStateToInGame();
+
+        levelController.SetCurrentLevel(level);
+        levelController.LoadCurrentLevelScene();
+    }
+
+    public void FinishLoadingLevel()
+    {
+        LoadLevel();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void SetGameStateToMainMenu()
+    {
+        SetGameState(GameState.MAIN_MENU);
+        GetUiController().SetUiMode(gameState);
+        Debug.LogFormat("SetGameStateToMainMenu called. gameState is {0}", gameState.ToString());
+
+        uiController.SetDebugHeartBeat(gameState.ToString());
+    }
+
+    public void SetGameStateToInGame()
+    {
+        currentLives = startingLives;
+
+        SetGameState(GameState.IN_GAME);
+        GetUiController().SetUiMode(gameState);
+        Debug.LogFormat("SetGameStateToInGame called. gameState is {0}", gameState.ToString());
+
+        uiController.SetDebugHeartBeat(gameState.ToString());
+    }
+
+    public void SetGameStateToLevelSelectMenu()
+    {
+        SetGameState(GameState.LEVEL_SELECT_MENU);
+        GetUiController().SetUiMode(gameState);
+        Debug.LogFormat("SetGameStateToLevelSelectMenu called. gameState is {0}", gameState.ToString());
+
+        uiController.SetDebugHeartBeat(gameState.ToString());
+    }
+
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public void CheckForLevelCompleted()
+    {
+        if(grid == null)
+        {
+            return;
+        }
+
+        WaveController waveController = grid.gameObject.GetComponent<WaveController>();
+
+        bool waveFinished = waveController.LevelFinished();
+        int enemiesAlive = EnemyAliveCount();
+
+        if (waveFinished && enemiesAlive <= 0)
+        {
+            UnloadLevel();
+
+            SetGameStateToLevelSelectMenu();
         }
     }
 

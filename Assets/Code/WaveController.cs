@@ -7,6 +7,7 @@ public class WaveController : MonoBehaviour
     GameController gameController;
     Source source;
 
+    bool finished;
     int currentWaveIndex;
     WaveConfig currentWave;
     WaveConfig[] waves;
@@ -17,7 +18,6 @@ public class WaveController : MonoBehaviour
     {
         gameController = GameController.GetInstance();
         Debug.Assert(gameController != null, "Could not find gameController!");
-
 
         var sourceGameObject = GameObject.FindGameObjectWithTag("Source");
         if (sourceGameObject != null)
@@ -35,6 +35,11 @@ public class WaveController : MonoBehaviour
 
     void Update()
     {
+        if (gameController.GetGameState() != GameState.IN_GAME)
+        {
+            return;
+        }
+
         FindSource();
 
         if (timer > 0)
@@ -65,7 +70,7 @@ public class WaveController : MonoBehaviour
 
     void AdvanceToNextWave()
     {
-        if (currentWaveIndex + 1 >= waves.Length)
+        if (finished)
         {
             return;
         }
@@ -73,10 +78,24 @@ public class WaveController : MonoBehaviour
         currentWaveIndex++;
 
         Debug.LogFormat("Finished wave {0}", currentWaveIndex);
+        
+        if (currentWaveIndex >= waves.Length)
+        {
+            FinishLevel();
+            return;
+        }
 
         currentWave = waves[currentWaveIndex];
 
         timer = currentWave.timeBeforeWave;
+    }
+
+    void FinishLevel()
+    {
+        finished = true;
+        Debug.Log("Finished all waves for current level");
+
+        //gameController.FinishedLevel();
     }
 
     void FindSource()
@@ -86,5 +105,10 @@ public class WaveController : MonoBehaviour
             source = GameObject.FindGameObjectWithTag("Source").GetComponent<Source>();
         }
         Debug.Assert(source != null, "All maps should have a source!");
+    }
+
+    public bool LevelFinished()
+    {
+        return finished;
     }
 }

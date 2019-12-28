@@ -21,14 +21,15 @@ public class TileMapManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        } else
+        }
+        else
         {
             Destroy(this);
             Debug.LogError("Tried to instantiate more than one TileMapManager!");
         }
     }
 
-    void Start()
+    public void LoadLevel()
     {
         gameController = GameController.GetInstance();
 
@@ -46,6 +47,7 @@ public class TileMapManager : MonoBehaviour
     void InitGrid()
     {
         grid = new Dictionary<(int, int), GameObject>();
+        GameObject nodeContainer = GetNodeContainer();
 
         for (int x = bounds.xMin; x <= bounds.xMax; x++)
         {
@@ -54,9 +56,9 @@ public class TileMapManager : MonoBehaviour
                 var pos = (x, y);
                 var node = Instantiate(
                     nodePrefab,
-                    GetNodeContainer().transform.position,
+                    nodeContainer.transform.position,
                     Quaternion.identity,
-                    GetNodeContainer().transform
+                    nodeContainer.transform
                 );
 
                 grid.Add(
@@ -69,7 +71,7 @@ public class TileMapManager : MonoBehaviour
 
     GameObject GetNodeContainer()
     {
-        return transform.Find("Nodes").gameObject;
+        return GameObject.Find("Nodes").gameObject;
     }
 
     public Vector3Int GetGridCelPosition(Vector3 position)

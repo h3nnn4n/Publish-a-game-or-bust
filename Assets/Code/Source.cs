@@ -13,7 +13,8 @@ public class Source : MonoBehaviour
         Instantiate(
             enemyCirclePrefab,
             transform.position,
-            Quaternion.identity
+            Quaternion.identity,
+            GetEnemiesContainer().transform
         );
     }
 
@@ -25,14 +26,16 @@ public class Source : MonoBehaviour
                 Instantiate(
                     enemyCirclePrefab,
                     transform.position,
-                    Quaternion.identity
+                    Quaternion.identity,
+                    GetEnemiesContainer().transform
                 );
                 break;
             case EnemyType.Square:
                 Instantiate(
                     enemySquarePrefab,
                     transform.position,
-                    Quaternion.identity
+                    Quaternion.identity,
+                    GetEnemiesContainer().transform
                 );
                 break;
             case EnemyType.None:
@@ -41,5 +44,10 @@ public class Source : MonoBehaviour
                 Debug.LogError("Found a new type of EnemyType! Please FIXME");
                 break;
         }
+    }
+
+    GameObject GetEnemiesContainer()
+    {
+        return GameObject.Find("Enemies").gameObject;
     }
 }
