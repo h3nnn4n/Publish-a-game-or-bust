@@ -9,7 +9,8 @@ public class Tower : MonoBehaviour
     public float weaponCooldown = 0.5f;
     public float weaponDamage = 1.0f;
     public float weaponRange = 2.0f;
-    public float weaponCost = 50f;
+
+    public float towerCost = 50f;
 
     public GameObject bulletObjectPrefab;
 

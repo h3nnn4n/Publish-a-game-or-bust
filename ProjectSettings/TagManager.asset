@@ -10,6 +10,7 @@ TagManager:
   - Grid
   - Tilemap
   - UI
+  - Tower
   layers:
   - Default
   - TransparentFX

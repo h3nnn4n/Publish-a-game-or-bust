@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 7199663210915735790}
   - component: {fileID: 7199663210915735791}
   m_Layer: 0
-  m_Name: Tower
-  m_TagString: Untagged
+  m_Name: Tower Gun
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponCooldown: 0.75
   weaponDamage: 1
-  weaponRange: 3
-  weaponCost: 30
+  weaponRange: 2.5
+  towerCost: 50
   bulletObjectPrefab: {fileID: 3505859357652622827, guid: 2831df06646d14862a447fcf0520783c,
     type: 3}

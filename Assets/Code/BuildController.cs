@@ -6,7 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class BuildController : MonoBehaviour
 {
-    public GameObject basicTower;
+    public GameObject basicTowerPrefab;
+    public GameObject cannonTowerPrefab;
 
     GameObject selectedTower;
 
@@ -30,7 +31,7 @@ public class BuildController : MonoBehaviour
         mainCamera = Camera.main;
         tileMap = gameControler.GetTileMap();
 
-        selectedTower = basicTower;
+        selectedTower = basicTowerPrefab;
     }
 
     void Update()
@@ -94,7 +95,7 @@ public class BuildController : MonoBehaviour
 
     float SelectedWeaponCost()
     {
-        return selectedTower.GetComponent<Tower>().weaponCost;
+        return selectedTower.GetComponent<Tower>().towerCost;
     }
 
     void UpdateFocusedTitle()
@@ -132,5 +133,15 @@ public class BuildController : MonoBehaviour
         Debug.Assert(pathfinder.HasPath(), "Expected a valid path to exist after WillTowerBlockThePath() was called");
 
         return willPathBeBlocked;
+    }
+
+    public void SelectGunTower()
+    {
+        selectedTower = basicTowerPrefab;
+    }
+
+    public void SelectCannonTower()
+    {
+        selectedTower = cannonTowerPrefab;
     }
 }

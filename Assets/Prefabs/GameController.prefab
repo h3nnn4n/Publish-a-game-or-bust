@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0313fcbcaa94448b8bf76df8c9b57301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicTower: {fileID: 7199663210915735792, guid: 4567728abe45a4596aa193086790e7e2,
+  basicTowerPrefab: {fileID: 7199663210915735792, guid: 4567728abe45a4596aa193086790e7e2,
+    type: 3}
+  cannonTowerPrefab: {fileID: 4570487875002597950, guid: da8b1eacc495d4677b3a691969fbd746,
     type: 3}
 --- !u!114 &4088337528154033452
 MonoBehaviour:
@@ -169,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveIndex: 0
+  timeBeforeWave: 2
   timeIntervals:
   - 2
   - 2
@@ -187,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveIndex: 1
+  timeBeforeWave: 2
   timeIntervals:
   - 2
   - 2
