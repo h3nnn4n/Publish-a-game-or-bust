@@ -69,6 +69,8 @@ public class UiController : MonoBehaviour
         inGameUi.SetActive(false);
         mainMenuUi.SetActive(false);
         levelSelectUi.SetActive(true);
+
+        towerUi.Disable();
     }
 
     void LoadMainMenuUI()

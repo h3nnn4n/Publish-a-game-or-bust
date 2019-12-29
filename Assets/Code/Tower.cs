@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -97,6 +98,16 @@ public class Tower : MonoBehaviour
         }
 
         return nearest;
+    }
+
+    public float DPS()
+    {
+        return ShootingSpeed() * weaponDamage;
+    }
+
+    public float ShootingSpeed()
+    {
+        return 1.0f / weaponCooldown;
     }
 
     void SpawnBullet(GameObject target) {
