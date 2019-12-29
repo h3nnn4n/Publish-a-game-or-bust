@@ -100,10 +100,12 @@ public class Enemy : MonoBehaviour
 
         var pathfinder = new PathfinderStandalone();
         pathfinder.startPoint = (Vector2Int)gridPosition;
+        pathfinder.endPoint = globalPathfinder.endPoint;
 
         pathfinder.CalculatePath();
 
         path = pathfinder.GetPath();
+        Debug.AssertFormat(pathfinder.HasPath(), "Pathfinder could not find a path!");
 
         GetNextNodeFromPathfinder();
     }

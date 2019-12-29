@@ -112,6 +112,8 @@ public class BuildController : MonoBehaviour
         }
 
         Node node = tileMapManager.GetNode(currentCoordinate);
+        node.SetHasTower();
+
         Vector3 cellWorldPosition = tileMap.GetCellCenterWorld(currentCoordinate);
 
         Instantiate(
@@ -122,8 +124,6 @@ public class BuildController : MonoBehaviour
         );
 
         gameControler.SpendCredits(SelectedWeaponCost());
-
-        node.canBuild = false;
 
         gameControler.BroadcastRecalculatePathToAllEnemies();
 

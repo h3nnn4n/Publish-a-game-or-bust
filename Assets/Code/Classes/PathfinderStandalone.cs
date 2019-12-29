@@ -36,8 +36,6 @@ public class PathfinderStandalone : ScriptableObject
 
     public void CalculatePath()
     {
-        Debug.Log("Recalculating shortest path");
-
         ResetEnvironment();
 
         EnqueueNeighbors(startPoint);

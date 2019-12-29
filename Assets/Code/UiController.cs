@@ -18,6 +18,8 @@ public class UiController : MonoBehaviour
     GameObject mainMenuUi;
     GameObject levelSelectUi;
 
+    public TowerUi towerUi;
+
     float credits;
     int nLives;
 
@@ -26,6 +28,8 @@ public class UiController : MonoBehaviour
         gameController = GameController.GetInstance();
 
         CacheUiObjects();
+
+        towerUi = new TowerUi();
     }
 
     void CacheUiObjects()
@@ -122,5 +126,10 @@ public class UiController : MonoBehaviour
             credits = newCredits;
             textCreditsAmount.text = credits.ToString();
         }
+    }
+
+    public TowerUi GetTowerUi()
+    {
+        return towerUi;
     }
 }

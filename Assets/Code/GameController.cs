@@ -175,7 +175,7 @@ public class GameController : MonoBehaviour
                     node.transform
                 );
 
-                node.canBuild = false;
+                node.SetEmpty();
                 pathfinder.startPoint = (Vector2Int)cellPosition;
 
                 break;
@@ -189,15 +189,15 @@ public class GameController : MonoBehaviour
                     node.transform
                 );
 
-                node.canBuild = false;
+                node.SetEmpty();
                 pathfinder.endPoint = (Vector2Int)cellPosition;
 
                 break;
             case "empty":
-                node.canBuild = false;
+                node.SetEmpty();
                 break;
             case "block":
-                node.canBuild = true;
+                node.SetBuildable();
                 break;
             default:
                 break;
@@ -364,7 +364,14 @@ public class GameController : MonoBehaviour
 
     public Grid GetGrid()
     {
-        return GameObject.FindGameObjectWithTag("Grid").GetComponent<Grid>();
+        GameObject gridGameObject = GameObject.FindGameObjectWithTag("Grid");
+
+        if (gridGameObject == null)
+        {
+            return null;
+        }
+
+        return gridGameObject.GetComponent<Grid>();
     }
 
     public UiController GetUiController()
