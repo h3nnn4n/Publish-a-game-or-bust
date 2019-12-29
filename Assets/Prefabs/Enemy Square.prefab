@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 8789261020063505165, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}
       propertyPath: credits
-      value: 7.5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8789261020063505165, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}

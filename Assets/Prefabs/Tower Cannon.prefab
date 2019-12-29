@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 7199663210915735791, guid: 4567728abe45a4596aa193086790e7e2,
         type: 3}
       propertyPath: weaponDamage
-      value: 5
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 7199663210915735791, guid: 4567728abe45a4596aa193086790e7e2,
         type: 3}
@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 7199663210915735791, guid: 4567728abe45a4596aa193086790e7e2,
         type: 3}
       propertyPath: towerCost
-      value: 100
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7199663210915735791, guid: 4567728abe45a4596aa193086790e7e2,
         type: 3}

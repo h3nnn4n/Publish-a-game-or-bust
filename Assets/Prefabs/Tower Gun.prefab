@@ -124,9 +124,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc81c3a32c9ad464a83539c37d1cfb22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponCooldown: 0.75
-  weaponDamage: 1
+  weaponCooldown: 0.25
+  weaponDamage: 0.33
   weaponRange: 2.5
-  towerCost: 50
+  towerCost: 30
   bulletObjectPrefab: {fileID: 3505859357652622827, guid: 2831df06646d14862a447fcf0520783c,
     type: 3}
