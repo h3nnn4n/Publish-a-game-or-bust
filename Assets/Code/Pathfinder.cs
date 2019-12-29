@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-    GameController gameController;
-    TileMapManager tileMapManager;
-
     LineRenderer lineRenderer;
 
     public Vector2Int startPoint;
@@ -15,18 +12,6 @@ public class Pathfinder : MonoBehaviour
     bool hasPath;
 
     List<Vector2Int> path = new List<Vector2Int>();
-
-    Queue<Vector2Int> queue = new Queue<Vector2Int>();
-    HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
-    Dictionary<Vector2Int, Vector2Int> pathGraph = new Dictionary<Vector2Int, Vector2Int>();
-
-    void Start()
-    {
-        gameController = GameController.GetInstance();
-        tileMapManager = TileMapManager.GetInstance();
-
-        lineRenderer = GetComponent<LineRenderer>();
-    }
 
     public List<Vector2Int> GetPath()
     {
@@ -44,69 +29,14 @@ public class Pathfinder : MonoBehaviour
 
         SetupEnvironment();
 
-        EnqueueNeighbors(startPoint);
-
-        while (queue.Count > 0)
-        {
-            Vector2Int position = queue.Dequeue();
-
-            if (position == endPoint)
-            {
-                BuildPath();
-                break; // ?
-            }
-            
-            Node node = tileMapManager.GetNode(position);
-
-            if(node.canBuild)
-            {
-                EnqueueNeighbors(position);
-            }
-        }
+        var pathfinder = new PathfinderStandalone();
+        pathfinder.startPoint = startPoint;
+        pathfinder.endPoint = endPoint;
+        pathfinder.CalculatePath();
+        path = pathfinder.GetPath();
+        hasPath = pathfinder.HasPath();
 
         DrawPath();
-    }
-
-    void EnqueueNeighbors(Vector2Int position)
-    {
-        EnqueueNode(position + new Vector2Int( 1,  0), position);
-        EnqueueNode(position + new Vector2Int( 0,  1), position);
-        EnqueueNode(position + new Vector2Int(-1,  0), position);
-        EnqueueNode(position + new Vector2Int( 0, -1), position);
-    }
-
-    void EnqueueNode(Vector2Int node, Vector2Int parent)
-    {
-        if (visited.Contains(node))
-        {
-            return;
-        }
-
-        visited.Add(node);
-
-        pathGraph.Add(
-            node,
-            parent
-        );
-
-        queue.Enqueue(node);
-    }
-
-    void BuildPath()
-    {
-        Vector2Int node = endPoint;
-        path.Add(node);
-
-        while(node != startPoint)
-        {
-            node = pathGraph[node];
-            path.Add(node);
-        }
-
-        Debug.Log("Found a valid path!");
-        hasPath = true;
-
-        path.Reverse();
     }
 
     void DrawPath()
@@ -132,21 +62,6 @@ public class Pathfinder : MonoBehaviour
     void SetupEnvironment()
     {
         hasPath = false;
-
-        path.Clear();
-        pathGraph.Clear();
-        queue.Clear();
-        visited.Clear();
-
-        if (gameController == null)
-        {
-            gameController = GameController.GetInstance();
-        }
-
-        if (tileMapManager ==  null)
-        {
-            tileMapManager = TileMapManager.GetInstance();
-        }
 
         if (lineRenderer == null)
         {

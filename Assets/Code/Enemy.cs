@@ -98,11 +98,42 @@ public class Enemy : MonoBehaviour
     {
         Vector3Int gridPosition = tileMapManager.GetGridCelPosition(transform.position);
 
-        globalPathfinder.startPoint = (Vector2Int)gridPosition;
-        globalPathfinder.RecalculatePath();
+        var pathfinder = new PathfinderStandalone();
+        pathfinder.startPoint = (Vector2Int)gridPosition;
 
-        path = globalPathfinder.GetPath();
+        pathfinder.CalculatePath();
+
+        path = pathfinder.GetPath();
 
         GetNextNodeFromPathfinder();
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector2 enemyPosition = transform.position;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(enemyPosition, 0.2f);
+
+        Gizmos.color = Color.red;
+
+        foreach (var node in path)
+        {
+            Gizmos.DrawSphere(new Vector3(node.x - 1.5f, node.y, 0f), 0.2f);
+        }
+
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawLine(
+            transform.position,
+            new Vector3(currentNode.x - 1.5f, currentNode.y, 0f));
+
+        if (path.Count > 0)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(
+                transform.position,
+                new Vector3(path[0].x - 1.5f, path[0].y, 0f));
+        }
     }
 }
