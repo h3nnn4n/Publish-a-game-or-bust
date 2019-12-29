@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     public float nodeDistanceThreshold = 0.2f;
     public float sinkDistanceThreshold = 0.5f;
 
+    public GameObject deathParticlePrefab;
+
     readonly float speedScale = 0.1f;
 
     void Start()
@@ -49,12 +51,22 @@ public class Enemy : MonoBehaviour
         {
             gameController.LoseLife();
             Destroy(gameObject);
+
+            Instantiate(
+                deathParticlePrefab,
+                transform.position,
+                Quaternion.identity);
         }
 
         if (health <= 0)
         {
             gameController.AddCredits(credits);
             Destroy(gameObject);
+
+            Instantiate(
+                deathParticlePrefab,
+                transform.position,
+                Quaternion.identity);
         }
     }
 
