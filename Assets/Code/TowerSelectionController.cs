@@ -97,13 +97,20 @@ public class TowerSelectionController : MonoBehaviour
         currentCoordinate = coordinate;
     }
 
+    TowerUi GetTowerUi()
+    {
+        gameController = GameController.GetInstance();
+        uiController = gameController.GetUiController();
+        towerUi = uiController.towerUi;
+
+        return towerUi;
+    }
+
     public void SellTower()
     {
         Debug.Log("Selling Tower");
 
-        gameController = GameController.GetInstance();
-        uiController = gameController.GetUiController();
-        towerUi = uiController.towerUi;
+        towerUi = GetTowerUi();
 
         Node towerNode = towerUi.GetTowerNode();
         GameObject nodeGameObject = towerNode.gameObject;
@@ -119,6 +126,11 @@ public class TowerSelectionController : MonoBehaviour
         gameController.BroadcastRecalculatePathToAllEnemies();
 
         towerUi.Disable();
+    }
+
+    public void CloseUi()
+    {
+        GetTowerUi().Disable();
     }
 
     public static TowerSelectionController GetInstance()
