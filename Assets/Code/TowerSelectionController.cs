@@ -117,6 +117,8 @@ public class TowerSelectionController : MonoBehaviour
         Destroy(towerGameObject);
 
         gameController.BroadcastRecalculatePathToAllEnemies();
+
+        towerUi.Disable();
     }
 
     public static TowerSelectionController GetInstance()

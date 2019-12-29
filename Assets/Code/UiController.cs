@@ -32,6 +32,19 @@ public class UiController : MonoBehaviour
         towerUi = new TowerUi();
     }
 
+    private void Update()
+    {
+        UpdateTowerUi();
+    }
+
+    void UpdateTowerUi()
+    {
+        if (towerUi != null && towerUi.active)
+        {
+            towerUi.Update();
+        }
+    }
+
     void CacheUiObjects()
     {
         gameUi = GameObject.Find("GameUi");

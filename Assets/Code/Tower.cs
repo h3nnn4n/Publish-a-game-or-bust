@@ -9,8 +9,9 @@ public class Tower : MonoBehaviour
     public float weaponCooldown = 0.5f;
     public float weaponDamage = 1.0f;
     public float weaponRange = 2.0f;
-
     public float towerCost = 50f;
+
+    float damageDealt;
 
     public GameObject bulletObjectPrefab;
 
@@ -73,6 +74,8 @@ public class Tower : MonoBehaviour
         Enemy enemy = target.GetComponent<Enemy>();
 
         enemy.DealDamage(weaponDamage);
+
+        damageDealt += weaponDamage;
     }
 
     GameObject FindNearestTarget()
@@ -106,5 +109,10 @@ public class Tower : MonoBehaviour
 
         Bullet bullet = newGameObject.GetComponent<Bullet>();
         bullet.SetTarget(target);
+    }
+
+    public float DamageDealt()
+    {
+        return damageDealt;
     }
 }
