@@ -47,7 +47,8 @@ MonoBehaviour:
   health: 10
   speed: 0.2
   credits: 10
-  distanceThreshold: 0.2
+  nodeDistanceThreshold: 0.01
+  sinkDistanceThreshold: 0.5
 --- !u!1 &8789261021575899734
 GameObject:
   m_ObjectHideFlags: 0
