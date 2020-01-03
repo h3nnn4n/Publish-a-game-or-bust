@@ -53,6 +53,10 @@ MonoBehaviour:
     type: 3}
   nodePrefab: {fileID: 6627126130686370808, guid: 75ca3ab0a95a64073b131f96822e149c,
     type: 3}
+  emptyCellPrefab: {fileID: 4421478699256449048, guid: 572845386c58348b89664e1fb2947cdb,
+    type: 3}
+  blockCellPrefab: {fileID: 2742465441738757168, guid: 18f1fd0b4e52f46a2aa560d9bf9b2ead,
+    type: 3}
   startingLives: 10
 --- !u!114 &6699180195935519359
 MonoBehaviour:
@@ -108,3 +112,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff376138d9d340c3bbc2f080b2c8dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resellValue: 0.75

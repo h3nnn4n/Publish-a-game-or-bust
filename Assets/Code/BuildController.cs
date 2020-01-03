@@ -116,12 +116,14 @@ public class BuildController : MonoBehaviour
 
         Vector3 cellWorldPosition = tileMap.GetCellCenterWorld(currentCoordinate);
 
-        Instantiate(
+        GameObject newTower = Instantiate(
             selectedTower,
             cellWorldPosition,
             Quaternion.identity,
             node.gameObject.transform
         );
+
+        newTower.name = "tower";
 
         gameControler.SpendCredits(SelectedWeaponCost());
 

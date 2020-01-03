@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
     public GameObject sourcePrefab;
     public GameObject sinkPrefab;
     public GameObject nodePrefab;
+    public GameObject emptyCellPrefab;
+    public GameObject blockCellPrefab;
 
     UiController uiController;
     TileMapManager tileMapManager;
@@ -120,6 +122,7 @@ public class GameController : MonoBehaviour
         tileMapManager.LoadLevel();
 
         SpawnGameObjects();
+        HideTiles();
 
         GetPathfinder();
         pathfinder.RecalculatePath();
@@ -155,6 +158,7 @@ public class GameController : MonoBehaviour
 
         if (tile == null)
         {
+            Debug.LogFormat("Found no tile at {0}", cellPosition);
             return;
         }
 
@@ -194,14 +198,36 @@ public class GameController : MonoBehaviour
 
                 break;
             case "empty":
+                Instantiate(
+                    emptyCellPrefab,
+                    cellWorldPosition,
+                    Quaternion.identity,
+                    node.transform
+                );
+
                 node.SetEmpty();
                 break;
             case "block":
+                Instantiate(
+                    blockCellPrefab,
+                    cellWorldPosition,
+                    Quaternion.identity,
+                    node.transform
+                );
+
                 node.SetBuildable();
                 break;
             default:
                 break;
         }
+    }
+
+    void HideTiles()
+    {
+        tileMap = GetTileMap();
+        grid = GetGrid();
+
+        tileMap.color = new Color(0, 0, 0, 0);
     }
 
     void CheckGameOver()

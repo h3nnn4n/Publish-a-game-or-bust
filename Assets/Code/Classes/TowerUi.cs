@@ -42,8 +42,11 @@ public class TowerUi
     Tower GetTower()
     {
         GameObject nodeGameObject = towerNode.gameObject;
-        GameObject towerGameObject = nodeGameObject.transform.GetChild(0).gameObject;
+        GameObject towerGameObject = nodeGameObject.transform.Find("tower").gameObject;
+
         Tower tower = towerGameObject.GetComponent<Tower>();
+
+        Debug.AssertFormat(tower != null, "Found no Tower!");
 
         return tower;
     }
