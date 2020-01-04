@@ -39,7 +39,7 @@ public class TileMapManager : MonoBehaviour
         bounds = tilemap.cellBounds;
         size = tilemap.size;
 
-        Debug.Log(tilemap);
+        //Debug.Log(tilemap);
 
         InitGrid();
     }

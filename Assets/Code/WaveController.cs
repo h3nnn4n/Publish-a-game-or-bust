@@ -30,7 +30,7 @@ public class WaveController : MonoBehaviour
         currentWave = waves[currentWaveIndex];
         timer = currentWave.timeBeforeWave;
 
-        Debug.LogFormat("Found {0} WaveConfig objects", waves.Length);
+        //Debug.LogFormat("Found {0} WaveConfig objects", waves.Length);
     }
 
     void Update()

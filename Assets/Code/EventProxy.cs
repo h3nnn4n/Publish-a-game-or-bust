@@ -30,13 +30,15 @@ public class EventProxy : MonoBehaviour
     {
         GameController gameController = GameController.GetInstance();
         gameController.SetLevelAndTriggerLoad(level);
+        Debug.Log("SetLevelAndTriggerLoad");
     }
 
     public void LeaveGameAndGoToLevelSelectMenu()
     {
         GameController gameController = GameController.GetInstance();
         gameController.UnloadLevel();
-        gameController.SetGameStateToLevelSelectMenu();
+        //gameController.SetGameStateToLevelSelectMenu();
+        Debug.Log("LeaveGameAndGoToLevelSelectMenu");
     }
 
     public static void FinishLoadingLevel()

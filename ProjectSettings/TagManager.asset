@@ -11,6 +11,7 @@ TagManager:
   - Tilemap
   - UI
   - Tower
+  - UITransition
   layers:
   - Default
   - TransparentFX

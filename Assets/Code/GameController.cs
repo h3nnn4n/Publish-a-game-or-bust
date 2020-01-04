@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     GameState gameState = GameState.MAIN_MENU;
 
     int currentLives;
+    bool gameOver;
 
     Tilemap tileMap;
     Grid grid;
@@ -134,6 +135,8 @@ public class GameController : MonoBehaviour
 
         WaveController waveController = grid.GetComponent<WaveController>();
         waveController.enabled = true;
+
+        gameOver = false;
     }
 
     void SpawnGameObjects()
@@ -231,7 +234,7 @@ public class GameController : MonoBehaviour
 
     void CheckGameOver()
     {
-        if (currentLives <= 0)
+        if (currentLives <= 0 && !gameOver)
         {
             DoGameOver();
         }
@@ -242,8 +245,7 @@ public class GameController : MonoBehaviour
         Debug.Log("GameOver triggered");
 
         UnloadLevel();
-
-        SetGameStateToLevelSelectMenu();
+        gameOver = true;
     }
 
     void SetGameState(GameState newGameState)
@@ -260,13 +262,39 @@ public class GameController : MonoBehaviour
 
     public void UnloadLevel()
     {
-        levelController.UnloadCurrentLevelScene();
+        StartCoroutine(UnloadLevelTransition());
+    }
+
+    IEnumerator UnloadLevelTransition()
+    {
+        var animationController = AnimationController.GetInstance();
+        animationController.TriggerFadeOut();
+
+        yield return new WaitForSeconds(0.26f);
+
         pathfinder.Reset();
         buildController.enabled = false;
+        levelController.UnloadCurrentLevelScene();
+
+        SetGameStateToLevelSelectMenu();
+
+        animationController.TriggerFadeIn();
+
+        yield return null;
     }
 
     public void SetLevelAndTriggerLoad(int level)
     {
+        StartCoroutine(SetLevelAndTriggerLoadTransition(level));
+    }
+
+    IEnumerator SetLevelAndTriggerLoadTransition(int level)
+    {
+        var animationController = AnimationController.GetInstance();
+        animationController.TriggerFadeOut();
+
+        yield return new WaitForSeconds(0.26f);
+
         SetGameStateToInGame();
 
         levelController.SetCurrentLevel(level);
@@ -332,8 +360,6 @@ public class GameController : MonoBehaviour
         if (waveFinished && enemiesAlive <= 0)
         {
             UnloadLevel();
-
-            SetGameStateToLevelSelectMenu();
         }
     }
 

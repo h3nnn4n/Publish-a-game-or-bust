@@ -95,7 +95,7 @@ public class PathfinderStandalone
             path.Add(node);
         }
 
-        Debug.Log("Found a valid path!");
+        //Debug.Log("Found a valid path!");
         hasPath = true;
 
         path.Reverse();

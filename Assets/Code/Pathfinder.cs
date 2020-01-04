@@ -25,7 +25,7 @@ public class Pathfinder : MonoBehaviour
 
     public void RecalculatePath()
     {
-        Debug.Log("Recalculating shortest path");
+        //Debug.Log("Recalculating shortest path");
 
         SetupEnvironment();
 

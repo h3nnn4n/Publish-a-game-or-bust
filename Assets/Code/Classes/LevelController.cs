@@ -11,24 +11,14 @@ public class LevelController
         SceneManager.sceneLoaded -= FinishedLoadingScene;
 
         Debug.Log("Finished async scene load");
+
+        var animationController = AnimationController.GetInstance();
+        animationController.TriggerFadeIn();
     }
 
     public void SetCurrentLevel(int level)
     {
         currentLevel = level;
-    }
-
-    public void ReloadLevel()
-    {
-        UnloadCurrentLevelScene();
-        LoadCurrentLevelScene();
-    }
-
-    public void LoadNextLevel()
-    {
-        UnloadCurrentLevelScene();
-        AdvanceLevel();
-        LoadCurrentLevelScene();
     }
 
     public void LoadCurrentLevelScene()
@@ -44,12 +34,9 @@ public class LevelController
 
     public void UnloadCurrentLevelScene()
     {
+        Debug.LogFormat("Unloading scene {0}", currentLevel);
+
         SceneManager.UnloadSceneAsync(
             string.Format("Level {0}", currentLevel));
-    }
-
-    void AdvanceLevel()
-    {
-        currentLevel++;
     }
 }
