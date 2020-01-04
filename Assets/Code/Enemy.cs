@@ -13,11 +13,15 @@ public class Enemy : MonoBehaviour
     List<Vector2Int> path;
     Vector2Int currentNode;
 
+    HealthBar healthBar;
+
     public float health = 10;
     public float speed = 1f;
     public float credits = 10f;
     public float nodeDistanceThreshold = 0.2f;
     public float sinkDistanceThreshold = 0.5f;
+
+    float currentHealth;
 
     public GameObject deathParticlePrefab;
 
@@ -30,8 +34,12 @@ public class Enemy : MonoBehaviour
         globalPathfinder = gameController.GetPathfinder();
         tileMapManager = TileMapManager.GetInstance();
 
+        currentHealth = health;
+
         path = globalPathfinder.GetPath();
         GetNextNodeFromPathfinder();
+
+        healthBar = new HealthBar(gameObject);
     }
 
     void Update()
@@ -39,6 +47,7 @@ public class Enemy : MonoBehaviour
         FindAndCacheSink();
         Despawn();
         MoveTowardsSink();
+        healthBar.Update();
     }
 
     void Despawn()
@@ -58,7 +67,7 @@ public class Enemy : MonoBehaviour
                 Quaternion.identity);
         }
 
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             gameController.AddCredits(credits);
             Destroy(gameObject);
@@ -103,7 +112,7 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        health -= damage;
+        currentHealth -= damage;
     }
 
     public void RecalculatePath()
@@ -131,9 +140,12 @@ public class Enemy : MonoBehaviour
 
         Gizmos.color = Color.red;
 
-        foreach (var node in path)
+        if (path != null && path.Count > 0)
         {
-            Gizmos.DrawSphere(new Vector3(node.x - 1.5f, node.y, 0f), 0.2f);
+            foreach (var node in path)
+            {
+                Gizmos.DrawSphere(new Vector3(node.x - 1.5f, node.y, 0f), 0.2f);
+            }
         }
 
         Gizmos.color = Color.magenta;
@@ -149,5 +161,10 @@ public class Enemy : MonoBehaviour
                 transform.position,
                 new Vector3(path[0].x - 1.5f, path[0].y, 0f));
         }
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }
