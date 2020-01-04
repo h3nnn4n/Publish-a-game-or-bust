@@ -16,9 +16,12 @@ public class Tower : MonoBehaviour
 
     public GameObject bulletObjectPrefab;
 
+    GameObject bulletsContainer;
+
     void Start()
     {
         cooldown = weaponCooldown;
+        bulletsContainer = GameObject.Find("Bullets");
     }
 
     void Update()
@@ -115,7 +118,8 @@ public class Tower : MonoBehaviour
             Instantiate(
                 bulletObjectPrefab,
                 transform.position,
-                Quaternion.identity
+                Quaternion.identity,
+                bulletsContainer.transform
             );
 
         Bullet bullet = newGameObject.GetComponent<Bullet>();
