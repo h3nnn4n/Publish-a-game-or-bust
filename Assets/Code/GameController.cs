@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour
 
     GameState gameState = GameState.MAIN_MENU;
 
-    public int startingLives = 10;
     int currentLives;
 
     Tilemap tileMap;
@@ -87,10 +86,7 @@ public class GameController : MonoBehaviour
 
     void LevelSelectMenuLoop()
     {
-        credits += Random.Range(-1f, 1f);
-
-        uiController.SetDebugHeartBeat(
-            string.Format("select menu {0}", credits.ToString()));
+        uiController.SetDebugHeartBeat("select menu");
     }
 
     void InGameLoop()
@@ -127,8 +123,11 @@ public class GameController : MonoBehaviour
         GetPathfinder();
         pathfinder.RecalculatePath();
 
-        credits = 100;
-        currentLives = startingLives;
+        GameObject gridGameObject = GameObject.FindGameObjectWithTag("Grid");
+        WaveCredits waveCredits = gridGameObject.GetComponent<WaveCredits>();
+
+        credits = waveCredits.startingCredits;
+        currentLives = waveCredits.startingLives;
 
         buildController.enabled = true;
         buildController.Load();
@@ -295,7 +294,7 @@ public class GameController : MonoBehaviour
 
     public void SetGameStateToInGame()
     {
-        currentLives = startingLives;
+        currentLives = 1;
 
         SetGameState(GameState.IN_GAME);
         GetUiController().SetUiMode(gameState);

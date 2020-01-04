@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 8107131404495665812}
   - component: {fileID: 8107131404495665802}
   - component: {fileID: 6508167153012324922}
+  - component: {fileID: 1005050417718813792}
   m_Layer: 0
   m_Name: BaseGrid
   m_TagString: Grid
@@ -255,6 +256,18 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f23ebbdbe275b4c199ac16b7cbc7e0ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1005050417718813792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8107131404495665813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5beafa66183dd4a81baac9dacdfb1ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8107131404771945493
