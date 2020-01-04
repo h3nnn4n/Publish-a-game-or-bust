@@ -81,7 +81,7 @@ public class TileMapManager : MonoBehaviour
         return coordinate;
     }
 
-    public bool CanBuild(Vector3Int pos)
+    public bool CanBuildOnNode(Vector3Int pos)
     {
         try
         {
@@ -95,7 +95,14 @@ public class TileMapManager : MonoBehaviour
 
     public Node GetNode(Vector3Int pos)
     {
-        return grid[(pos.x, pos.y)].GetComponent<Node>();
+        if (grid.ContainsKey((pos.x, pos.y)))
+        {
+            return grid[(pos.x, pos.y)].GetComponent<Node>();
+        }
+
+        Debug.LogWarningFormat("Node at {0}, {1} not found!", pos.x, pos.y);
+
+        return null;
     }
 
     public Node GetNode(Vector2Int pos)
@@ -103,6 +110,8 @@ public class TileMapManager : MonoBehaviour
         if (grid.ContainsKey((pos.x, pos.y))) {
             return grid[(pos.x, pos.y)].GetComponent<Node>();
         }
+
+        Debug.LogWarningFormat("Node at {0}, {1} not found!", pos.x, pos.y);
 
         return null;
     }

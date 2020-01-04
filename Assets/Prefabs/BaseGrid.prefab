@@ -213,8 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86faefac54c4f4110a71edbd420f4dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightEffect: {fileID: 2823948694012091113, guid: 7399f185f15e743dda20a90c9b6df919,
+  highlightEffectPrefab: {fileID: 2823948694012091113, guid: 7399f185f15e743dda20a90c9b6df919,
     type: 3}
+  blockedTint: {r: 1, g: 0, b: 0, a: 0.6862745}
+  emptyBlockTint: {r: 0.4528302, g: 0, b: 0.017913675, a: 0.7764706}
+  canBuildTint: {r: 1, g: 1, b: 1, a: 0.78431374}
+  cannotAffordTint: {r: 1, g: 0.72604644, b: 0, a: 0.76862746}
 --- !u!114 &6508167153012324922
 MonoBehaviour:
   m_ObjectHideFlags: 0

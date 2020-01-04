@@ -10,12 +10,17 @@ public class HighlighGridWithMouse : MonoBehaviour
     Camera mainCamera;
     Tilemap tileMap;
 
-    public GameObject highlightEffect;
+    public GameObject highlightEffectPrefab;
+    public Color blockedTint;
+    public Color emptyBlockTint;
+    public Color canBuildTint;
+    public Color cannotAffordTint;
 
     GameObject effectObject;
 
     GameController gameControler;
     TileMapManager tileMapManager;
+    BuildController buildController;
 
     Tile lastTile;
 
@@ -23,18 +28,25 @@ public class HighlighGridWithMouse : MonoBehaviour
     Vector3Int currentCoordinate;
     Vector3 currentWorldCoordinate;
     bool coordinateChanged;
+    bool willTowerBlockPath;
+
+    SpriteRenderer spriteRenderer;
 
     void Start()
     {
         gameControler = GameController.GetInstance();
         tileMapManager = TileMapManager.GetInstance();
+        buildController = BuildController.GetInstance();
         grid = gameControler.GetGrid();
         mainCamera = Camera.main;
         tileMap = gameControler.GetTileMap();
 
         effectObject = Instantiate(
-            highlightEffect
+            highlightEffectPrefab,
+            grid.gameObject.transform
         );
+
+        spriteRenderer = effectObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -62,16 +74,55 @@ public class HighlighGridWithMouse : MonoBehaviour
 
     void HighlightCurrentTile()
     {
-        if (coordinateChanged) {
-            if(tileMapManager.CanBuild(currentCoordinate))
-            {
-                effectObject.SetActive(true);
-            } else
-            {
-                effectObject.SetActive(false);
-            }
+        Node node = tileMapManager.GetNode(currentCoordinate);
 
+        if (node == null)
+            return;
+
+        if (node.type == "empty")
+        {
+            spriteRenderer.color = emptyBlockTint;
+        }
+        else if (node.canBuild)
+        {
+            if (WillTowerBlockPath())
+            {
+                spriteRenderer.color = blockedTint;
+            }
+            else if (CannotAffordTower())
+            {
+                spriteRenderer.color = cannotAffordTint;
+            }
+            else
+            {
+                spriteRenderer.color = canBuildTint;
+            }
+        }
+        else
+        {
+            spriteRenderer.color = blockedTint;
+        }
+
+        if (coordinateChanged)
+        {
             effectObject.transform.position = tileMap.GetCellCenterWorld(currentCoordinate);
         }
+    }
+
+    bool WillTowerBlockPath()
+    {
+        if (coordinateChanged)
+        {
+            buildController = BuildController.GetInstance();
+
+            willTowerBlockPath = buildController.WillTowerBlockThePath(currentCoordinate);
+        }
+
+        return willTowerBlockPath;
+    }
+
+    bool CannotAffordTower()
+    {
+        return buildController.HasTowerSelected() && buildController.CannotAffordTower();
     }
 }

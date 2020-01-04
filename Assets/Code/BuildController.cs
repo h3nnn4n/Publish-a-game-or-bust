@@ -73,7 +73,7 @@ public class BuildController : MonoBehaviour
         }
     }
 
-    bool CanBuildTower()
+    public bool CanBuildTower()
     {
         bool canBuild = true;
 
@@ -83,7 +83,7 @@ public class BuildController : MonoBehaviour
             return false;
         }
 
-        if (gameControler.GetCredits() < SelectedWeaponCost())
+        if (CannotAffordTower())
         {
             Debug.Log("Not enough credits!");
             canBuild = false;
@@ -102,6 +102,11 @@ public class BuildController : MonoBehaviour
         }
 
         return canBuild;
+    }
+
+    public bool CannotAffordTower()
+    {
+        return gameControler.GetCredits() < SelectedWeaponCost();
     }
 
     void BuildTower()
@@ -132,7 +137,7 @@ public class BuildController : MonoBehaviour
         Debug.Log("Tower Built");
     }
 
-    bool HasTowerSelected()
+    public bool HasTowerSelected()
     {
         return selectedTower != null;
     }
@@ -158,9 +163,10 @@ public class BuildController : MonoBehaviour
         }
     }
 
-    bool WillTowerBlockThePath()
+    public bool WillTowerBlockThePath(Vector3Int coordinate)
     {
-        Node node = tileMapManager.GetNode(currentCoordinate);
+        Node node = tileMapManager.GetNode(coordinate);
+
         node.canBuild = false;
 
         Debug.Assert(pathfinder.HasPath(), "Expected a valid path to exist when WillTowerBlockThePath() was called");
@@ -168,7 +174,7 @@ public class BuildController : MonoBehaviour
         pathfinder.RecalculatePath();
 
         bool willPathBeBlocked = !pathfinder.HasPath();
-  
+
         node.canBuild = true;
 
         pathfinder.RecalculatePath();
@@ -176,6 +182,11 @@ public class BuildController : MonoBehaviour
         Debug.Assert(pathfinder.HasPath(), "Expected a valid path to exist after WillTowerBlockThePath() was called");
 
         return willPathBeBlocked;
+    }
+
+    bool WillTowerBlockThePath()
+    {
+        return WillTowerBlockThePath(currentCoordinate);
     }
 
     void UpdateActiveGrid()
