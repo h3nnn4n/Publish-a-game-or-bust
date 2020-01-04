@@ -114,7 +114,7 @@ public class TowerSelectionController : MonoBehaviour
 
         Node towerNode = towerUi.GetTowerNode();
         GameObject nodeGameObject = towerNode.gameObject;
-        GameObject towerGameObject = nodeGameObject.transform.GetChild(0).gameObject;
+        GameObject towerGameObject = nodeGameObject.transform.Find("tower").gameObject;
         Tower tower = towerGameObject.GetComponent<Tower>();
 
         towerNode.SetBuildable();

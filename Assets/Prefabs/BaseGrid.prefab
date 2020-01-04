@@ -107,11 +107,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveIndex: 0
   timeBeforeWave: 5
-  timeIntervals:
-  - 1
-  - 1
-  - 1
-  enemies: 000000000000000000000000
+  enemies:
+  - interval: 3
+    size: 3
+    enemyType: 0
 --- !u!114 &8853070986021054658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,13 +125,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveIndex: 1
   timeBeforeWave: 5
-  timeIntervals:
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  enemies: 0000000000000000000000000000000000000000
+  enemies:
+  - interval: 2.5
+    size: 5
+    enemyType: 0
 --- !u!114 &5801177717427164071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,11 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveIndex: 2
   timeBeforeWave: 5
-  timeIntervals:
-  - 2
-  - 4
-  - 0
-  enemies: 010000000100000001000000
+  enemies:
+  - interval: 1
+    size: 1
+    enemyType: 1
 --- !u!1 &8107131404495665813
 GameObject:
   m_ObjectHideFlags: 0
