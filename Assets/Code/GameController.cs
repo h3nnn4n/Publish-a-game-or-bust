@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
 
     int currentLives;
     bool gameOver;
+    bool levelFinished;
 
     Tilemap tileMap;
     Grid grid;
@@ -137,6 +138,7 @@ public class GameController : MonoBehaviour
         waveController.enabled = true;
 
         gameOver = false;
+        levelFinished = false;
     }
 
     void SpawnGameObjects()
@@ -357,8 +359,9 @@ public class GameController : MonoBehaviour
         bool waveFinished = waveController.LevelFinished();
         int enemiesAlive = EnemyAliveCount();
 
-        if (waveFinished && enemiesAlive <= 0)
+        if (waveFinished && enemiesAlive <= 0 && levelFinished == false)
         {
+            levelFinished = true;
             UnloadLevel();
         }
     }
