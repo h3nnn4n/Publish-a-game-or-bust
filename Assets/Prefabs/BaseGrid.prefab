@@ -100,8 +100,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7677690566546334645}
   - component: {fileID: 4944149100792150760}
-  - component: {fileID: 8853070986021054658}
-  - component: {fileID: 5801177717427164071}
   m_Layer: 0
   m_Name: Waves
   m_TagString: Untagged
@@ -136,47 +134,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveIndex: 0
-  timeBeforeWave: 5
-  enemies:
-  - interval: 3
-    size: 3
-    enemyType: 0
---- !u!114 &8853070986021054658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5155563269175225137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e2275373d0b452faa15cb3e77d71a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveIndex: 1
-  timeBeforeWave: 5
-  enemies:
-  - interval: 2.5
-    size: 5
-    enemyType: 0
---- !u!114 &5801177717427164071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5155563269175225137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e2275373d0b452faa15cb3e77d71a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveIndex: 2
-  timeBeforeWave: 5
+  timeBeforeWave: 1
   enemies:
   - interval: 1
     size: 1
-    enemyType: 1
+    enemyType: 0
 --- !u!1 &8107131404495665813
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5beafa66183dd4a81baac9dacdfb1ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingCredits: 100
+  startingLives: 5
 --- !u!1 &8107131404771945493
 GameObject:
   m_ObjectHideFlags: 0
