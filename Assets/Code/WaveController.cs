@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class WaveController : MonoBehaviour
 
         GameObject wavesContainer = transform.Find("Waves").gameObject;
         waves = wavesContainer.GetComponents<WaveConfig>();
+        SortWaves();
         currentWave = waves[currentWaveIndex];
         timer = currentWave.timeBeforeWave;
 
@@ -57,6 +59,11 @@ public class WaveController : MonoBehaviour
                 AdvanceWave();
             }
         }
+    }
+
+    void SortWaves()
+    {
+        waves = waves.OrderBy(wave => wave.waveIndex).ToArray();
     }
 
     void AdvanceWave()
