@@ -139,6 +139,7 @@ MonoBehaviour:
   - interval: 1
     size: 1
     enemyType: 0
+  enemyModifiers: 
 --- !u!1 &8107131404495665813
 GameObject:
   m_ObjectHideFlags: 0

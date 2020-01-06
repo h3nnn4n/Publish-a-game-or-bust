@@ -12,6 +12,7 @@ TagManager:
   - UI
   - Tower
   - UITransition
+  - EnemySprite
   layers:
   - Default
   - TransparentFX

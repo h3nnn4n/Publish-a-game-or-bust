@@ -95,7 +95,12 @@ PrefabInstance:
     - target: {fileID: 8789261020063505165, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}
       propertyPath: speed
-      value: 0.08
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8789261020063505165, guid: a661b0d5312a047bea07340295bd0db2,
+        type: 3}
+      propertyPath: enemyType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8789261020063505166, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}
@@ -111,7 +116,7 @@ PrefabInstance:
     - target: {fileID: 8789261021575899734, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: EnemySprite
       objectReference: {fileID: 0}
     - target: {fileID: 8789261021575899734, guid: a661b0d5312a047bea07340295bd0db2,
         type: 3}

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     HealthBar healthBar;
 
+    public EnemyType enemyType;
     public float health = 10;
     public float speed = 1f;
     public float credits = 10f;
@@ -22,10 +22,9 @@ public class Enemy : MonoBehaviour
     public float sinkDistanceThreshold = 0.5f;
 
     float currentHealth;
+    List<EnemyModifier> modifiers;
 
     public GameObject deathParticlePrefab;
-
-    readonly float speedScale = 0.1f;
 
     void Start()
     {
@@ -91,7 +90,7 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        Vector3 step = moveDirection.normalized * speed * speedScale;
+        Vector3 step = moveDirection.normalized * speed * Time.deltaTime;
 
         transform.position += step;
     }
@@ -166,5 +165,60 @@ public class Enemy : MonoBehaviour
     public float GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public void ApplyModifiers(List<EnemyModifier> enemyModifiers)
+    {
+        modifiers = new List<EnemyModifier>(enemyModifiers);
+
+        float baseHealth = health;
+        float baseCredits = credits;
+        float baseSpeed = speed;
+        float baseNodeDistanceThreshold = nodeDistanceThreshold;
+
+        foreach (var modifier in modifiers)
+        {
+            switch(modifier)
+            {
+                case EnemyModifier.DOUBLE_BASE_CREDITS:
+                    credits += baseCredits;
+                    IncreaseDangerTint();
+                    break;
+                case EnemyModifier.DOUBLE_BASE_HEALTH:
+                    currentHealth += baseHealth;
+                    IncreaseDangerTint();
+                    break;
+                case EnemyModifier.DOUBLE_BASE_SPEED:
+                    speed += baseSpeed;
+                    nodeDistanceThreshold += baseNodeDistanceThreshold;
+                    IncreaseDangerTint();
+                    break;
+            }
+        }
+    }
+
+    void IncreaseDangerTint()
+    {
+        SpriteRenderer spriteRenderer = GetComponentsInChildren<SpriteRenderer>().FirstOrDefault(r => r.CompareTag("EnemySprite"));
+        Color color = spriteRenderer.color;
+        float multiplier = 0.125f;
+
+        switch(enemyType)
+        {
+            case EnemyType.Sphere:
+                color = Color.Lerp(
+                    color,
+                    Color.green,
+                    multiplier);
+                break;
+            case EnemyType.Square:
+                color = Color.Lerp(
+                    color,
+                    Color.red,
+                    multiplier);
+                break;
+        }
+
+        spriteRenderer.color = color;
     }
 }

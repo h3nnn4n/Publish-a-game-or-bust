@@ -18,12 +18,15 @@ public class Source : MonoBehaviour
         );
     }
 
-    public void Spawn(EnemyType enemyType)
+    public void Spawn(NextEnemySpawn enemySpawn)
     {
-        switch(enemyType)
+        GameObject enemyGameObject;
+        Enemy enemy;
+
+        switch(enemySpawn.enemyType)
         {
             case EnemyType.Sphere:
-                Instantiate(
+                enemyGameObject = Instantiate(
                     enemyCirclePrefab,
                     transform.position,
                     Quaternion.identity,
@@ -31,19 +34,19 @@ public class Source : MonoBehaviour
                 );
                 break;
             case EnemyType.Square:
-                Instantiate(
+                enemyGameObject = Instantiate(
                     enemySquarePrefab,
                     transform.position,
                     Quaternion.identity,
                     GetEnemiesContainer().transform
                 );
                 break;
-            case EnemyType.None:
-                break;
             default:
-                Debug.LogError("Found a new type of EnemyType! Please FIXME");
-                break;
+                throw new Exception("Found a new type of EnemyType! Please FIXME");
         }
+
+        enemy = enemyGameObject.GetComponent<Enemy>();
+        enemy.ApplyModifiers(enemySpawn.enemyModifiers);
     }
 
     GameObject GetEnemiesContainer()

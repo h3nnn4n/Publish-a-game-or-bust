@@ -7,6 +7,7 @@ public class WaveConfig : MonoBehaviour
     public int waveIndex;
     public float timeBeforeWave = 2;
     public List<EnemyWave> enemies;
+    public List<EnemyModifier> enemyModifiers;
 
     int spawnIndex;
 
@@ -21,7 +22,8 @@ public class WaveConfig : MonoBehaviour
 
         var nextEnemySpawn = new NextEnemySpawn(
             enemyWave.interval,
-            enemyWave.enemyType);
+            enemyWave.enemyType,
+            enemyModifiers);
 
         if (enemyWave.Finished())
         {

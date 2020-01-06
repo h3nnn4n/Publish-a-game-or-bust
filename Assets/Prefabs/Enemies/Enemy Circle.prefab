@@ -206,8 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8b18af382f84b49ba29f79bbbc4b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   health: 10
-  speed: 0.2
+  speed: 1
   credits: 10
   nodeDistanceThreshold: 0.01
   sinkDistanceThreshold: 0.5
@@ -225,7 +226,7 @@ GameObject:
   - component: {fileID: 8789261021575899732}
   m_Layer: 0
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: EnemySprite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

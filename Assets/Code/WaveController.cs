@@ -72,7 +72,7 @@ public class WaveController : MonoBehaviour
 
         timer = nextEnemySpawn.countdown;
 
-        source.Spawn(nextEnemySpawn.enemyType);
+        source.Spawn(nextEnemySpawn);
     }
 
     void AdvanceToNextWave()
