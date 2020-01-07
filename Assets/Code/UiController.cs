@@ -19,6 +19,7 @@ public class UiController : MonoBehaviour
     GameObject levelSelectUi;
 
     public TowerUi towerUi;
+    public TowerUpgradeUi towerUpgradeUi;
     public GameSpeedUi gameSpeedUi;
 
     float credits;
@@ -31,12 +32,14 @@ public class UiController : MonoBehaviour
         CacheUiObjects();
 
         towerUi = new TowerUi();
+        towerUpgradeUi = new TowerUpgradeUi();
         gameSpeedUi = new GameSpeedUi();
     }
 
     private void Update()
     {
         UpdateTowerUi();
+        UpdateTowerUpgradeUi();
         UpdateGameSpeedUI();
     }
 
@@ -45,6 +48,14 @@ public class UiController : MonoBehaviour
         if (towerUi != null && towerUi.active)
         {
             towerUi.Update();
+        }
+    }
+
+    void UpdateTowerUpgradeUi()
+    {
+        if (towerUpgradeUi != null && towerUpgradeUi.active)
+        {
+            towerUpgradeUi.Update();
         }
     }
 
@@ -154,5 +165,10 @@ public class UiController : MonoBehaviour
     public TowerUi GetTowerUi()
     {
         return towerUi;
+    }
+
+    public TowerUpgradeUi GetTowerUpgradeUi()
+    {
+        return towerUpgradeUi;
     }
 }

@@ -15,6 +15,7 @@ public class TowerSelectionController : MonoBehaviour
 
     UiController uiController;
     TowerUi towerUi;
+    TowerUpgradeUi towerUpgradeUi;
 
     public float resellValue = 0.75f;
 
@@ -61,10 +62,13 @@ public class TowerSelectionController : MonoBehaviour
     void OpenTowerUi()
     {
         towerUi = uiController.GetTowerUi();
+        towerUpgradeUi = uiController.GetTowerUpgradeUi();
+
         Node towerNode = tileMapManager.GetNode(currentCoordinate);
 
         towerUi.Enable();
         towerUi.SetTowerNode(towerNode);
+        towerUpgradeUi.SetTowerNode(towerNode);
     }
 
     bool HasTower()
@@ -106,6 +110,15 @@ public class TowerSelectionController : MonoBehaviour
         return towerUi;
     }
 
+    TowerUpgradeUi GetTowerUpgradeUi()
+    {
+        gameController = GameController.GetInstance();
+        uiController = gameController.GetUiController();
+        towerUpgradeUi = uiController.towerUpgradeUi;
+
+        return towerUpgradeUi;
+    }
+
     public void SellTower()
     {
         Debug.Log("Selling Tower");
@@ -128,9 +141,41 @@ public class TowerSelectionController : MonoBehaviour
         towerUi.Disable();
     }
 
+    public void OpenTowerUpgradeUi()
+    {
+        GetTowerUpgradeUi().Enable();
+    }
+
+    public void ConfirmTowerUpgrade()
+    {
+        GetTowerUpgradeUi().ConfirmTowerUpgrade();
+    }
+
+    public void CloseTowerUpgradeUi()
+    {
+        GetTowerUpgradeUi().Disable();
+    }
+
+    public void SetWeaponUpgradeType(string modifier)
+    {
+        switch(modifier)
+        {
+            case "speed":
+                GetTowerUpgradeUi().SetWeaponUpgradeType(WeaponModifier.SPEED);
+                break;
+            case "damage":
+                GetTowerUpgradeUi().SetWeaponUpgradeType(WeaponModifier.DAMAGE);
+                break;
+            case "range":
+                GetTowerUpgradeUi().SetWeaponUpgradeType(WeaponModifier.RANGE);
+                break;
+        }
+    }
+
     public void CloseUi()
     {
         GetTowerUi().Disable();
+        GetTowerUpgradeUi().Disable();
     }
 
     public static TowerSelectionController GetInstance()

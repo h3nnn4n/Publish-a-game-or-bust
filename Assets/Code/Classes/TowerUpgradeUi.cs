@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class TowerUi
+public class TowerUpgradeUi
 {
     public bool active;
 
@@ -10,31 +11,31 @@ public class TowerUi
 
     GameObject gameUi;
     GameObject inGameUi;
-    GameObject towerUi;
+    GameObject towerUpgradeUi;
 
     Text weaponSpeedValue;
     Text weaponDamageValue;
     Text weaponRangeValue;
     Text weaponDPSValue;
-    Text damageDealtValue;
 
     Node towerNode;
 
-    public TowerUi()
+    WeaponModifier weaponModifier;
+
+    public TowerUpgradeUi()
     {
         gameController = GameController.GetInstance();
         uiController = gameController.GetUiController();
 
         gameUi = GameObject.Find("GameUi");
         inGameUi = gameUi.transform.Find("InGameUi").gameObject;
-        towerUi = inGameUi.transform.Find("TowerUi").gameObject;
-        weaponSpeedValue = towerUi.transform.Find("WeaponSpeedValue").gameObject.GetComponent<Text>();
-        weaponDamageValue = towerUi.transform.Find("WeaponDamageValue").gameObject.GetComponent<Text>();
-        weaponRangeValue = towerUi.transform.Find("WeaponRangeValue").gameObject.GetComponent<Text>();
-        weaponDPSValue = towerUi.transform.Find("WeaponDPSValue").gameObject.GetComponent<Text>();
-        damageDealtValue = towerUi.transform.Find("DamageDealtValue").gameObject.GetComponent<Text>();
+        towerUpgradeUi = inGameUi.transform.Find("TowerUpgradeUi").gameObject;
+        weaponSpeedValue = towerUpgradeUi.transform.Find("WeaponSpeedValue").gameObject.GetComponent<Text>();
+        weaponDamageValue = towerUpgradeUi.transform.Find("WeaponDamageValue").gameObject.GetComponent<Text>();
+        weaponRangeValue = towerUpgradeUi.transform.Find("WeaponRangeValue").gameObject.GetComponent<Text>();
+        weaponDPSValue = towerUpgradeUi.transform.Find("WeaponDPSValue").gameObject.GetComponent<Text>();
 
-        towerUi.SetActive(false);
+        Disable();
     }
 
     Tower GetTower()
@@ -57,19 +58,27 @@ public class TowerUi
         weaponDamageValue.text = tower.GetWeaponDamage().ToString();
         weaponRangeValue.text = tower.GetWeaponRange().ToString();
         weaponDPSValue.text = tower.DPS().ToString();
-        damageDealtValue.text = GetTower().DamageDealt().ToString();
     }
 
     public void Enable()
     {
-        towerUi.SetActive(true);
+        towerUpgradeUi.SetActive(true);
         active = true;
     }
 
     public void Disable()
     {
-        towerUi.SetActive(false);
+        towerUpgradeUi.SetActive(false);
         active = false;
+    }
+
+    public void ConfirmTowerUpgrade()
+    {
+        Tower tower = GetTower();
+
+        // Check if can upgrade
+        tower.AddModifier(weaponModifier); // Upgrade towers
+        Disable(); // Close Upgrade UI
     }
 
     public void SetTowerNode(Node node)
@@ -80,5 +89,11 @@ public class TowerUi
     public Node GetTowerNode()
     {
         return towerNode;
+    }
+
+    public void SetWeaponUpgradeType(WeaponModifier modifier)
+    {
+        Debug.Log(modifier.ToString());
+        weaponModifier = modifier;
     }
 }

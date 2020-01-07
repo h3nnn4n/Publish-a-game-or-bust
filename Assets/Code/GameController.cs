@@ -452,7 +452,7 @@ public class GameController : MonoBehaviour
 
     public int GetGameSpeed()
     {
-        return gameSpeed;
+        return GetInstance().gameSpeed;
     }
 
     public void SetGameSpeed(int speed)

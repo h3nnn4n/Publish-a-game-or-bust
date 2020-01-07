@@ -5,25 +5,38 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    float cooldown;
-
-    public float weaponCooldown = 0.5f;
-    public float weaponDamage = 1.0f;
-    public float weaponRange = 2.0f;
+    public float baseWeaponCooldown = 0.5f;
+    public float baseWeaponDamage = 1.0f;
+    public float baseWeaponRange = 2.0f;
     public float towerCost = 50f;
+
+    public float cooldownUpgradeMultiplier = 0.8f;
+    public float damageUpgradeMultiplier = 1.2f;
+    public float rangeUpgradeMultiplier = 1.2f;
 
     float damageDealt;
 
-    public GameObject bulletObjectPrefab;
+    float weaponCooldown;
+    float weaponDamage;
+    float weaponRange;
+    float cooldown;
 
+    public GameObject bulletObjectPrefab;
+ 
     GameObject bulletsContainer;
     GameController gameController;
+    List<WeaponModifier> weaponModifiers = new List<WeaponModifier>();
 
     void Start()
     {
-        cooldown = weaponCooldown;
         bulletsContainer = GameObject.Find("Bullets");
         gameController = GameController.GetInstance();
+
+        weaponCooldown = baseWeaponCooldown;
+        weaponDamage = baseWeaponDamage;
+        weaponRange = baseWeaponRange;
+
+        cooldown = weaponCooldown;
     }
 
     void Update()
@@ -113,6 +126,43 @@ public class Tower : MonoBehaviour
         return nearest;
     }
 
+    void IncreaseDangerTint()
+    {
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Color color = spriteRenderer.color;
+        int weaponModifierCount = weaponModifiers.Count;
+        float multiplier = 0.2f;
+
+        if (weaponModifierCount <= 1)
+        {
+            color = Color.Lerp(
+                color,
+                Color.green,
+                multiplier);
+        }
+        else if (weaponModifierCount <= 3)
+        {
+            color = Color.Lerp(
+                color,
+                Color.yellow,
+                multiplier);
+        }
+        else if (weaponModifierCount <= 5)
+        {
+            color = Color.Lerp(
+                color,
+                Color.red,
+                multiplier);
+        }
+
+        color = Color.Lerp(
+            color,
+            Color.red,
+            multiplier);
+
+        spriteRenderer.color = color;
+    }
+
     public float DPS()
     {
         return ShootingSpeed() * weaponDamage;
@@ -139,5 +189,34 @@ public class Tower : MonoBehaviour
     public float DamageDealt()
     {
         return damageDealt;
+    }
+
+    public float GetWeaponDamage()
+    {
+        return weaponDamage;
+    }
+
+    public float GetWeaponRange()
+    {
+        return weaponRange;
+    }
+
+    public void AddModifier(WeaponModifier modifier)
+    {
+        switch (modifier)
+        {
+            case WeaponModifier.DAMAGE:
+                weaponDamage *= damageUpgradeMultiplier;
+                break;
+            case WeaponModifier.SPEED:
+                weaponCooldown *= cooldownUpgradeMultiplier;
+                break;
+            case WeaponModifier.RANGE:
+                weaponRange *= rangeUpgradeMultiplier;
+                break;
+        }
+
+        IncreaseDangerTint();
+        weaponModifiers.Add(modifier);
     }
 }
