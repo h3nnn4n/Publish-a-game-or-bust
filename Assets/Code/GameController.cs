@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
     bool gameOver;
     bool levelFinished;
 
+    int gameSpeed = 1;
+
     Tilemap tileMap;
     Grid grid;
 
@@ -446,5 +448,36 @@ public class GameController : MonoBehaviour
         }
 
         return pathfinder;
+    }
+
+    public int GetGameSpeed()
+    {
+        return gameSpeed;
+    }
+
+    public void SetGameSpeed(int speed)
+    {
+        var self = GetInstance();
+        self.gameSpeed = speed;
+    }
+
+    public void IncreaseGameSpeed()
+    {
+        var self = GetInstance();
+
+        if (self.gameSpeed < 5)
+        {
+            self.gameSpeed++;
+        }
+    }
+
+    public void DecreaseGameSpeed()
+    {
+        var self = GetInstance();
+
+        if (self.gameSpeed > 0)
+        {
+            self.gameSpeed--;
+        }
     }
 }

@@ -44,6 +44,14 @@ public class WaveController : MonoBehaviour
 
         FindSource();
 
+        for (int i = 0; i < gameController.GetGameSpeed(); i++)
+        {
+            UpdateWave();
+        }
+    }
+
+    void UpdateWave()
+    {
         if (timer > 0)
         {
             timer -= Time.deltaTime;

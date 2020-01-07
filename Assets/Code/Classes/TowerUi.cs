@@ -66,7 +66,6 @@ public class TowerUi
     {
         towerUi.SetActive(true);
         active = true;
-
     }
 
     public void Disable()

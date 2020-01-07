@@ -17,14 +17,24 @@ public class Tower : MonoBehaviour
     public GameObject bulletObjectPrefab;
 
     GameObject bulletsContainer;
+    GameController gameController;
 
     void Start()
     {
         cooldown = weaponCooldown;
         bulletsContainer = GameObject.Find("Bullets");
+        gameController = GameController.GetInstance();
     }
 
     void Update()
+    {
+        for (int i = 0; i < gameController.GetGameSpeed(); i++)
+        {
+            WeaponUpdate();
+        }
+    }
+
+    void WeaponUpdate()
     {
         Aim();
         TickWeaponCooldown();

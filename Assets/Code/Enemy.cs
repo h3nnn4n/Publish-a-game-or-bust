@@ -43,6 +43,14 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        for (int i = 0; i < gameController.GetGameSpeed(); i++)
+        {
+            EnemyUpdate();
+        }
+    }
+
+    void EnemyUpdate()
+    {
         FindAndCacheSink();
         Despawn();
         MoveTowardsSink();

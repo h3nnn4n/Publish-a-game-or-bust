@@ -19,6 +19,7 @@ public class UiController : MonoBehaviour
     GameObject levelSelectUi;
 
     public TowerUi towerUi;
+    public GameSpeedUi gameSpeedUi;
 
     float credits;
     int nLives;
@@ -30,11 +31,13 @@ public class UiController : MonoBehaviour
         CacheUiObjects();
 
         towerUi = new TowerUi();
+        gameSpeedUi = new GameSpeedUi();
     }
 
     private void Update()
     {
         UpdateTowerUi();
+        UpdateGameSpeedUI();
     }
 
     void UpdateTowerUi()
@@ -43,6 +46,11 @@ public class UiController : MonoBehaviour
         {
             towerUi.Update();
         }
+    }
+
+    void UpdateGameSpeedUI()
+    {
+        gameSpeedUi.Update();
     }
 
     void CacheUiObjects()

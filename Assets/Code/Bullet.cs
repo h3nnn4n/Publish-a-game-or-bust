@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     GameObject target;
+    GameController gameController;
 
     public float timeToLive = 0.7f;
 
@@ -13,10 +14,19 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        gameController = GameController.GetInstance();
         bulletTimer = timeToLive;
     }
 
     void Update()
+    {
+        for (int i = 0; i < gameController.GetGameSpeed(); i++)
+        {
+            BulletUpdate();
+        }
+    }
+
+    void BulletUpdate()
     {
         bulletTimer -= Time.deltaTime;
 
