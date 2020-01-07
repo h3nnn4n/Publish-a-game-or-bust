@@ -47,9 +47,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
   - name: Enemies
     uniqueID: 348857111
     locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: UI Elements
+    uniqueID: 1078916765
     locked: 0

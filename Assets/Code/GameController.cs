@@ -33,13 +33,13 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
         else
         {
-            Destroy(this);
+            DestroyImmediate(this);
             Debug.LogError("Warning, GameController tryed to spawn more than once");
         }
     }
