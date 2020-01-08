@@ -28,6 +28,7 @@ public class TowerUi
         gameUi = GameObject.Find("GameUi");
         inGameUi = gameUi.transform.Find("InGameUi").gameObject;
         towerUi = inGameUi.transform.Find("TowerUi").gameObject;
+
         weaponSpeedValue = towerUi.transform.Find("WeaponSpeedValue").gameObject.GetComponent<Text>();
         weaponDamageValue = towerUi.transform.Find("WeaponDamageValue").gameObject.GetComponent<Text>();
         weaponRangeValue = towerUi.transform.Find("WeaponRangeValue").gameObject.GetComponent<Text>();
@@ -53,11 +54,39 @@ public class TowerUi
     {
         Tower tower = GetTower();
 
-        weaponSpeedValue.text = tower.ShootingSpeed().ToString();
-        weaponDamageValue.text = tower.GetWeaponDamage().ToString();
-        weaponRangeValue.text = tower.GetWeaponRange().ToString();
-        weaponDPSValue.text = tower.DPS().ToString();
-        damageDealtValue.text = GetTower().DamageDealt().ToString();
+        weaponDamageValue.text = FormatAttribute(
+            tower.baseWeaponDamage,
+            tower.GetModifierBonus(WeaponModifier.DAMAGE)
+        );
+
+        weaponRangeValue.text = FormatAttribute(
+            tower.baseWeaponRange,
+            tower.GetModifierBonus(WeaponModifier.RANGE)
+        );
+
+        weaponSpeedValue.text = FormatAttribute(
+            tower.baseWeaponCooldown,
+            tower.GetModifierBonus(WeaponModifier.SPEED)
+        );
+
+        weaponDPSValue.text = FormatAttribute(tower.BaseDPS(), tower.BonusDPS());
+        damageDealtValue.text = FormatAttribute(GetTower().DamageDealt(), 0f);
+    }
+
+    string FormatAttribute(float baseValue, float modifierValue)
+    {
+        string formated;
+
+        if (modifierValue == 0)
+        {
+            formated = string.Format("{0:n2}", baseValue);
+        }
+        else
+        {
+            formated = string.Format("{0:n2} (+{1:n2})", baseValue, modifierValue);
+        }
+
+        return formated;
     }
 
     public void Enable()

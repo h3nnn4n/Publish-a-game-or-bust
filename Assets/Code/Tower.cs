@@ -173,6 +173,16 @@ public class Tower : MonoBehaviour
         return 1.0f / weaponCooldown;
     }
 
+    public float BaseDPS()
+    {
+        return (1.0f / baseWeaponCooldown) * baseWeaponDamage;
+    }
+
+    public float BonusDPS()
+    {
+        return DPS() - BaseDPS();
+    }
+
     void SpawnBullet(GameObject target) {
         GameObject newGameObject =
             Instantiate(
@@ -223,5 +233,20 @@ public class Tower : MonoBehaviour
     public int GetNumberOfModifiers()
     {
         return weaponModifiers.Count;
+    }
+
+    public float GetModifierBonus(WeaponModifier modifier)
+    {
+        switch (modifier)
+        {
+            case WeaponModifier.DAMAGE:
+                return weaponDamage - baseWeaponDamage;
+            case WeaponModifier.SPEED:
+                return baseWeaponCooldown - weaponCooldown;
+            case WeaponModifier.RANGE:
+                return weaponRange - baseWeaponRange;
+            default:
+                throw new Exception(string.Format("{0} was not treated!", modifier));
+        }
     }
 }
