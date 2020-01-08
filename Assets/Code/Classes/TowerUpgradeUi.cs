@@ -82,10 +82,43 @@ public class TowerUpgradeUi
             buttonSpeedUpgrade.interactable = true;
         }
 
-        weaponSpeedValue.text = tower.ShootingSpeed().ToString();
-        weaponDamageValue.text = tower.GetWeaponDamage().ToString();
-        weaponRangeValue.text = tower.GetWeaponRange().ToString();
-        weaponDPSValue.text = tower.DPS().ToString();
+        weaponDamageValue.text = FormatAttribute(
+            tower.baseWeaponDamage,
+            tower.GetModifierBonus(WeaponModifier.DAMAGE, weaponModifier)
+        );
+
+        weaponRangeValue.text = FormatAttribute(
+            tower.baseWeaponRange,
+            tower.GetModifierBonus(WeaponModifier.RANGE, weaponModifier)
+        );
+
+        weaponSpeedValue.text = FormatAttribute(
+            tower.baseWeaponCooldown,
+            tower.GetModifierBonus(WeaponModifier.SPEED, weaponModifier)
+        );
+
+        weaponDPSValue.text = FormatAttribute(
+            tower.BaseDPS(),
+            tower.BonusDPS(weaponModifier));
+    }
+
+    string FormatAttribute(float baseValue, float modifierValue)
+    {
+        string formated;
+
+        if (modifierValue == 0)
+        {
+            formated = string.Format("{0:n2}", baseValue);
+        }
+        else
+        {
+            formated = string.Format(
+                "{0:n2} (+{1:n2})",
+                baseValue,
+                modifierValue);
+        }
+
+        return formated;
     }
 
     public void Enable()

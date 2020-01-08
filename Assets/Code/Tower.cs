@@ -183,6 +183,28 @@ public class Tower : MonoBehaviour
         return DPS() - BaseDPS();
     }
 
+    public float BonusDPS(WeaponModifier modifier)
+    {
+        float dps;
+
+        switch (modifier)
+        {
+            case WeaponModifier.DAMAGE:
+                dps = (1.0f / weaponCooldown) * (weaponDamage * damageUpgradeMultiplier);
+                break;
+            case WeaponModifier.SPEED:
+                dps = (1.0f / (baseWeaponCooldown * cooldownUpgradeMultiplier)) * (weaponDamage);
+                break;
+            case WeaponModifier.RANGE:
+                dps = DPS();
+                break;
+            default:
+                throw new Exception(string.Format("{0} was not treated!", modifier));
+        }
+
+        return dps - BaseDPS();
+    }
+
     void SpawnBullet(GameObject target) {
         GameObject newGameObject =
             Instantiate(
@@ -245,6 +267,24 @@ public class Tower : MonoBehaviour
                 return baseWeaponCooldown - weaponCooldown;
             case WeaponModifier.RANGE:
                 return weaponRange - baseWeaponRange;
+            default:
+                throw new Exception(string.Format("{0} was not treated!", modifier));
+        }
+    }
+
+    public float GetModifierBonus(WeaponModifier modifier, WeaponModifier extra)
+    {
+        if (extra != modifier)
+            return GetModifierBonus(modifier);
+
+        switch (modifier)
+        {
+            case WeaponModifier.DAMAGE:
+                return (weaponDamage * damageUpgradeMultiplier) - baseWeaponDamage;
+            case WeaponModifier.SPEED:
+                return baseWeaponCooldown - (weaponCooldown * cooldownUpgradeMultiplier);
+            case WeaponModifier.RANGE:
+                return (weaponRange * rangeUpgradeMultiplier) - baseWeaponRange;
             default:
                 throw new Exception(string.Format("{0} was not treated!", modifier));
         }
