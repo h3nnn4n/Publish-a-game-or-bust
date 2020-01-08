@@ -18,6 +18,11 @@ public class TowerUpgradeUi
     Text weaponRangeValue;
     Text weaponDPSValue;
 
+    Button buttonConfirm;
+    Button buttonRangeUpgrade;
+    Button buttonDamageUpgrade;
+    Button buttonSpeedUpgrade;
+
     Node towerNode;
 
     WeaponModifier weaponModifier;
@@ -30,10 +35,16 @@ public class TowerUpgradeUi
         gameUi = GameObject.Find("GameUi");
         inGameUi = gameUi.transform.Find("InGameUi").gameObject;
         towerUpgradeUi = inGameUi.transform.Find("TowerUpgradeUi").gameObject;
+
         weaponSpeedValue = towerUpgradeUi.transform.Find("WeaponSpeedValue").gameObject.GetComponent<Text>();
         weaponDamageValue = towerUpgradeUi.transform.Find("WeaponDamageValue").gameObject.GetComponent<Text>();
         weaponRangeValue = towerUpgradeUi.transform.Find("WeaponRangeValue").gameObject.GetComponent<Text>();
         weaponDPSValue = towerUpgradeUi.transform.Find("WeaponDPSValue").gameObject.GetComponent<Text>();
+
+        buttonConfirm = towerUpgradeUi.transform.Find("ButtonConfirm").gameObject.GetComponent<Button>();
+        buttonRangeUpgrade = towerUpgradeUi.transform.Find("ButtonRangeUpgrade").gameObject.GetComponent<Button>();
+        buttonDamageUpgrade = towerUpgradeUi.transform.Find("ButtonDamageUpgrade").gameObject.GetComponent<Button>();
+        buttonSpeedUpgrade = towerUpgradeUi.transform.Find("ButtonSpeedUpgrade").gameObject.GetComponent<Button>();
 
         Disable();
     }
@@ -53,6 +64,23 @@ public class TowerUpgradeUi
     public void Update()
     {
         Tower tower = GetTower();
+
+        int numberOfUpgrades = tower.GetNumberOfModifiers();
+
+        if (numberOfUpgrades >= 5)
+        {
+            buttonConfirm.interactable = false;
+            buttonRangeUpgrade.interactable = false;
+            buttonDamageUpgrade.interactable = false;
+            buttonSpeedUpgrade.interactable = false;
+        }
+        else
+        {
+            buttonConfirm.interactable = true;
+            buttonRangeUpgrade.interactable = true;
+            buttonDamageUpgrade.interactable = true;
+            buttonSpeedUpgrade.interactable = true;
+        }
 
         weaponSpeedValue.text = tower.ShootingSpeed().ToString();
         weaponDamageValue.text = tower.GetWeaponDamage().ToString();

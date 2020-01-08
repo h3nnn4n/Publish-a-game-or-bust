@@ -219,4 +219,9 @@ public class Tower : MonoBehaviour
         IncreaseDangerTint();
         weaponModifiers.Add(modifier);
     }
+
+    public int GetNumberOfModifiers()
+    {
+        return weaponModifiers.Count;
+    }
 }
